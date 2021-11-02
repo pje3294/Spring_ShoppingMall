@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
@@ -38,7 +39,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="index.html"> <img src="img/logo.png" alt="logo"> </a>
+                        <a class="navbar-brand" href="main.do"> <img src="img/logo.png" alt="logo"> </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -91,22 +92,96 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="hearer_icon d-flex">
-                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <a href=""><i class="ti-heart"></i></a>
-                            <div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-cart-plus"></i>
-                                </a>
-                                <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <div class="single_product">
-    
-                                    </div>
-                                </div> -->
+<!--================================================================================  -->						
+						
+						<!--  ====================== 상단바 아이콘  ====================== -->
+						<!--로그인xxxxx -->
+						<c:if test="${empty user && empty manager}">
+							<div class="hearer_icon d-flex">
+								<div class="dropdown">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="ti-user"></i>
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" href="login.jsp">로그인</a> <a
+											class="dropdown-item" href="join.jsp">회원가입</a>
 
-                            </div>
-                        </div>
+									</div>
+								</div>
+
+								<a id="search_1" href="javascript:void(0)"><i
+									class="ti-search"></i></a>
+
+							</div>
+
+
+						</c:if>
+
+						<!-- ======= 로그인 시 마이페이지 이동  ========-->
+						<c:if test="${!empty user}">
+							<div class="hearer_icon d-flex">
+								<div class="dropdown">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="ti-user"></i>
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" href="logout.do">로그아웃</a> 
+										<a class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
+									</div>
+								</div>
+
+								<div class="dropdown cart">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+									</a>
+								</div>
+
+								<a id="search_1" href="javascript:void(0)"> 
+								<i class="ti-search"></i>
+								</a>
+
+
+
+							</div>
+						</c:if>
+						
+						
+						<!-- ======= 관리자 페이지 이동  ========-->
+						<c:if test="${!empty manager}">
+							<div class="hearer_icon d-flex">
+								<div class="dropdown">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="ti-user"></i>
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" href="logout.do">로그아웃</a> 
+										<a class="dropdown-item" href="myPage.do?user=${manager.id}">관리자페이지</a>
+									</div>
+								</div>
+
+								<div class="dropdown cart">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+									</a>
+								</div>
+
+								<a id="search_1" href="javascript:void(0)"> 
+								<i class="ti-search"></i>
+								</a>
+
+
+
+							</div>
+						</c:if>
+<!--================================================================================  -->
+						
+						
+						
                     </nav>
                 </div>
             </div>
@@ -132,7 +207,7 @@
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
                             <h2>Shop Category</h2>
-                            <p>Home <span>-</span> Shop Category</p>
+                            <p>Shop <span>-</span>${param.proCate}</p>
                         </div>
                     </div>
                 </div>
@@ -314,8 +389,21 @@
                         </div>
                     </div>
 
+<!-- ==============  상품 정렬 section ======================= -->
                     <div class="row align-items-center latest_product_inner">
-                        <div class="col-lg-4 col-sm-6">
+                    <c:forEach var="v" items="${datas}">
+                    	<div class="col-lg-4 col-sm-6">
+                            <div class="single_product_item">
+                                <a href="productDetail.do?proCode=${v.proCode}"><img src="${v.proImg}" alt="상품이미지"></a>
+                                <div class="single_product_text">
+                                    <h4>${v.proName}</h4>
+                                    <h3>${v.proPrice}원</h3>
+                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                        <!-- <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
                                 <img src="img/product/product_1.png" alt="">
                                 <div class="single_product_text">
@@ -404,7 +492,7 @@
                                     <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-lg-12">
                             <div class="pageination">
                                 <nav aria-label="Page navigation example">

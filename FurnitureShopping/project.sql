@@ -20,14 +20,15 @@ addr varchar2(100) not null, -- 주소
 etcAddr varchar2(100) not null, -- 상세주소 
 admin varchar2(1) default 'N', -- 계정권한
 birth varchar2(10) not null, -- 생년월일
-profile varchar2(20) default 'default.png'
+profile varchar2(200) default 'images\\member\\default.png'
 );
 
 -------------------------------------------------------------------
 -- Product 테이블 
 create table product(
-proCode number(20) primary key, -- 상품번호
+proCode number(20) primary key, -- 상품번호 (nvl)
 proCate varchar2(30) not null, -- 상품 카테고리
+proSubCate varchar2(30) null, -- 하위 카테고리
 proName varchar2(100) not null, -- 상품명
 proPrice number(10) not null, -- 상품가격
 proStock number(5) not null, -- 상품재고
@@ -43,10 +44,8 @@ proSize varchar2(200) not null, -- 크기
 proFee number(5) not null, -- 배송,설치비용
 proCerti varchar2(100) not null, -- 품질보증기준
 proAS varchar2(100) not null, -- A/S 책임자와 전화번호
-proImg1 varchar2(200) default 'nonImg.png', -- 상품 이미지1
-proImg2 varchar2(200)default 'nonImg.png', -- 상품 이미지2
-proImg3 varchar2(200) default 'nonImg.png', -- 상품 이미지3
-proSelling number(20) default 0
+proImg varchar2(200) default 'images\\product\\nonImg.png', -- 상품 이미지1
+proSelling number(20) default 0 -- 판매수
 );
 
 -------------------------------------------------------------------
@@ -92,16 +91,17 @@ constraint fk_review3 foreign key (id) references member(id) on delete cascade
 -- Member 데이터 삽입
 insert into member (id, name, password, email, phone, pCode, addr, etcAddr, birth) values('jeong','박정은','1234','pje3294@naver.com','01012341234','14100','경기도 안양시 동안구','ㅇㅇㅇㅇㅇㅇ','19960927');
 insert into member (id, name, password, email, phone, pCode, addr, etcAddr, birth) values('abcabc','박정은','abc','pje3294@naver.com','01012341234','14100','경기도 안양시 동안구','ㅇㅇㅇㅇㅇㅇ','19960927');
-insert into member (id, name, password, email, phone, pCode, addr, etcAddr, birth) values('abcabc1','박정은','abc','pje3294@naver.com','01012341234','14100','경기도 안양시 동안구','ㅇㅇㅇㅇㅇㅇ','19960927');
+insert into member (id, name, password, email, phone, pCode, addr, etcAddr, birth, admin) values('admin','관리자','admin','admin@naver.com','01012341234','1000','경기도 ','ㅇㅇㅇㅇㅇㅇ','19960927', 'Y');
 
 
 
 -------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------
 -- Product 데이터 삽입																																			(proCode,parentCate, childCate, proName,proPrice,proStock,proKC,proColor,proCmpt,proMtrl,proMnfct,proNation,proSize,proFee,proCerti,proAS
-insert into product (proCode,proCate, proName,proPrice,proStock,proKC,proColor,proCmpt,proMtrl,proMnfct,proNation,proSize,proFee,proCerti,proAS) values((SELECT NVL(MAX(proCode), 0)+1 FROM product),'chair','가',1000,10,'해당없음','브라운','구성품','주요소재','제조사','제조국','가로150x세로100x높이50',3000,'별나라','03133333');
-insert into product (proCode,proCate,proName,proPrice,proStock,proKC,proColor,proCmpt,proMtrl,proMnfct,proNation,proSize,proFee,proCerti,proAS) values((SELECT NVL(MAX(proCode), 0)+1 FROM product),'chair','라',1000,5,'해당없음','브라운','구성품','주요소재','제조사','제조국','가로150x세로100x높이50',3000,'별나라','03133333');
-insert into product (proCode,proCate,proName,proPrice,proStock,proKC,proColor,proCmpt,proMtrl,proMnfct,proNation,proSize,proFee,proCerti,proAS) values((SELECT NVL(MAX(proCode), 0)+1 FROM product),'chair','나',200000,7,'해당없음','브라운','구성품','주요소재','제조사','제조국','가로150x세로100x높이50',3000,'별나라','03133333');
+insert into product (proCode,proCate,proSubCate,proName,proPrice,proStock,proKC,proColor,proCmpt,proMtrl,proMnfct,proNation,proSize,proFee,proCerti,proAS) values((SELECT NVL(MAX(proCode), 0)+1 FROM product),'chair','interior','가',1000,10,'해당없음','브라운','구성품','주요소재','제조사','제조국','가로150x세로100x높이50',3000,'별나라','03133333');
+insert into product (proCode,proCate,proSubCate,proName,proPrice,proStock,proKC,proColor,proCmpt,proMtrl,proMnfct,proNation,proSize,proFee,proCerti,proAS) values((SELECT NVL(MAX(proCode), 0)+1 FROM product),'chair','sitting','라',1000,5,'해당없음','브라운','구성품','주요소재','제조사','제조국','가로150x세로100x높이50',3000,'별나라','03133333');
+insert into product (proCode,proCate,proSubCate,proName,proPrice,proStock,proKC,proColor,proCmpt,proMtrl,proMnfct,proNation,proSize,proFee,proCerti,proAS) values((SELECT NVL(MAX(proCode), 0)+1 FROM product),'chair','interior','나',200000,7,'해당없음','브라운','구성품','주요소재','제조사','제조국','가로150x세로100x높이50',3000,'별나라','03133333');
+
 insert into product (proCode,proCate,proName,proPrice,proStock,proKC,proColor,proCmpt,proMtrl,proMnfct,proNation,proSize,proFee,proCerti,proAS) values((SELECT NVL(MAX(proCode), 0)+1 FROM product),'stool','a',5000,3,'해당없음','브라운','구성품','주요소재','제조사','제조국','가로150x세로100x높이50',3000,'별나라','03133333');
 insert into product (proCode,proCate,proName,proPrice,proStock,proKC,proColor,proCmpt,proMtrl,proMnfct,proNation,proSize,proFee,proCerti,proAS) values((SELECT NVL(MAX(proCode), 0)+1 FROM product),'stool','g',9000,5,'해당없음','브라운','구성품','주요소재','제조사','제조국','가로150x세로100x높이50',3000,'별나라','03133333');
 insert into product (proCode,proCate,proName,proPrice,proStock,proKC,proColor,proCmpt,proMtrl,proMnfct,proNation,proSize,proFee,proCerti,proAS) values((SELECT NVL(MAX(proCode), 0)+1 FROM product),'stool','라면',76000,5,'해당없음','브라운','구성품','주요소재','제조사','제조국','가로150x세로100x높이50',3000,'별나라','03133333');
@@ -132,5 +132,5 @@ select * from member where id='jeong' and password='1234';
 select * from product order by proDate desc;
 
 
-
+select * from product where proCode=2;
 

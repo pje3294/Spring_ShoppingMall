@@ -16,6 +16,7 @@ class ProductMapper implements RowMapper<ProductVO> {
 		ProductVO data = new ProductVO();
 		data.setProCode(rs.getInt("proCode"));
 		data.setProCate(rs.getString("proCate"));
+		data.setProSubCate(rs.getString("proSubCate"));
 		data.setProName(rs.getString("proName"));
 		data.setProPrice(rs.getInt("proPrice"));
 		data.setProStock(rs.getInt("proStock"));
@@ -24,16 +25,15 @@ class ProductMapper implements RowMapper<ProductVO> {
 		data.setProKC(rs.getString("proKC"));
 		data.setProColor(rs.getString("proColor"));
 		data.setProCmpt(rs.getString("proCmpt"));
+		data.setProSize(rs.getString("proSize"));
 		data.setProMtrl(rs.getString("proMtrl"));
 		data.setProMnfct(rs.getString("proMnfct"));
 		data.setProNation(rs.getString("proNation"));
 		data.setProFee(rs.getInt("proFee"));
 		data.setProCerti(rs.getString("proCerti"));
 		data.setProAS(rs.getString("proAS"));
-		data.setProImg1(rs.getString("proImg1"));
-		data.setProImg2(rs.getString("proImg2"));
-		data.setProImg3(rs.getString("proImg3"));
-
+		data.setProImg(rs.getString("proImg"));
+		System.out.println("dsfdd: "+data.getProImg());
 		return data;
 	}
 
@@ -57,12 +57,12 @@ public class ProductDAO {
 	 * 'nonImg.png', -- 상품 이미지3 proSelling number(20) default 0
 	 */
 	private final String insertSQL = "insert into product (proCode, proCate, proName, proPrice, proStock, proKC, "
-			+ "proColor, proCmpt, proMtrl, proMnfct, proNation, proSize, proFee, proCerti, proAS, proImg1, proImg2, proImg3) "
-			+ "values((select nvl(max(proCode),0)+1 from product),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			+ "proColor, proCmpt, proMtrl, proMnfct, proNation, proSize, proFee, proCerti, proAS, proImg) "
+			+ "values((select nvl(max(proCode),0)+1 from product),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	// 상품 등록일, 평점은 수정 xxxx
-	private final String updateSQL = "update product set proCate=?, proName=? , proPrice=?, proStock=?, proKC=?, proColor=? , proCmpt=?, "
-			+ "proMtrl=?, proMnfct=?, proNation=?, proSize=?, proFee=?, proCerti=?, proAS=?, proImg1=?, proImg2=?, proImg3=?  where proCode=?";
+	private final String updateSQL = "update product set proCate=?, proSubCate=?, proName=? , proPrice=?, proStock=?, proKC=?, proColor=? , proCmpt=?, "
+			+ "proMtrl=?, proMnfct=?, proNation=?, proSize=?, proFee=?, proCerti=?, proAS=?, proImg=? where proCode=?";
 
 	private final String deleteSQL = "delete from product where proCode=?";
 
@@ -93,8 +93,7 @@ public class ProductDAO {
 		// proAS, proImg1, proImg2, proImg3)
 		Object[] args = { vo.getProCate(), vo.getProName(), vo.getProPrice(), vo.getProStock(), vo.getProKC(),
 				vo.getProColor(), vo.getProCmpt(), vo.getProMtrl(), vo.getProMnfct(), vo.getProNation(),
-				vo.getProSize(), vo.getProFee(), vo.getProCerti(), vo.getProAS(), vo.getProImg1(), vo.getProImg2(),
-				vo.getProImg3() };
+				vo.getProSize(), vo.getProFee(), vo.getProCerti(), vo.getProAS(), vo.getProImg()};
 		jdbcTemplate.update(insertSQL, args);
 
 	}
@@ -107,10 +106,9 @@ public class ProductDAO {
 		// proColor=? , proCmpt=?, "
 		// + "proMtrl=?, proMnfct=?, proNation=?, proSize=?, proFee=?, proCerti=?,
 		// proAS=?, proImg1=?, proImg2=?, proImg3=? where proCode=?";
-		Object[] args = { vo.getProCate(), vo.getProName(), vo.getProPrice(), vo.getProStock(), vo.getProKC(),
+		Object[] args = { vo.getProCate(),vo.getProSubCate(), vo.getProName(), vo.getProPrice(), vo.getProStock(), vo.getProKC(),
 				vo.getProColor(), vo.getProCmpt(), vo.getProMtrl(), vo.getProMnfct(), vo.getProNation(),
-				vo.getProSize(), vo.getProFee(), vo.getProCerti(), vo.getProAS(), vo.getProImg1(), vo.getProImg2(),
-				vo.getProImg3(), vo.getProCode() };
+				vo.getProSize(), vo.getProFee(), vo.getProCerti(), vo.getProAS(), vo.getProImg(), vo.getProCode() };
 		jdbcTemplate.update(updateSQL, args);
 	}
 
@@ -156,6 +154,7 @@ public class ProductDAO {
 	public List<ProductVO> getProList(ProductVO vo) {
 		System.out.println("ProductDAO-getProList 실행");
 		String getProductListSQL_Cate = "SELECT * FROM (select ROWNUM AS RNUM, product.* FROM(select * from product where proCate=? order by proDate desc) product WHERE ROWNUM <= 5) WHERE RNUM > 0 ORDER BY proDate DESC";
+		String getProductListSQL_SubCate = "SELECT * FROM (select ROWNUM AS RNUM, product.* FROM(select * from product where proCate=? and proSubCate=? order by proDate desc) product WHERE ROWNUM <= 5) WHERE RNUM > 0 ORDER BY proDate DESC";
 		String getProductList_ALL = "select * from product order by proDate desc";
 		String getProductListSQL_ProDate = "select rownum as rnum, product.* from(select * from product where proName=? order by proDate desc) product "
 				+ "where rownum <= 5) where rnum >0? order by proDate desc";
@@ -169,14 +168,23 @@ public class ProductDAO {
 		
 		// 카테고리 선택 (의자, 스툴, 소파)
 		if (vo.getProCate().equals("chair")) {
-			//System.out.println("vo.getProCate확인: "+vo.getProCate());
-			Object[] args = { vo.getProCate() };
+			if(vo.getProSubCate() !=null) { // 의자 하위 카테고리                                                                                                                                                                                                                                                                                                                                                                                           
+				System.out.println("vo.getProCate확인: "+vo.getProCate());
+				System.out.println("vo.getProSubCate확인: "+vo.getProSubCate());
+				
+				Object[] args = { vo.getProCate(), vo.getProSubCate() };
+				return jdbcTemplate.query(getProductListSQL_SubCate, args, new ProductMapper());
+			}
+			
+			System.out.println("vo.getProCate확인: "+vo.getProCate());
+			Object[] args = { vo.getProCate()};
 			return jdbcTemplate.query(getProductListSQL_Cate, args, new ProductMapper());
+			
 		} else if (vo.getProCate().equals("stool")) {
-			Object[] args = { vo.getProCate() };
+			Object[] args = { vo.getProCate()};
 			return jdbcTemplate.query(getProductListSQL_Cate, args, new ProductMapper());
 		} else if (vo.getProCate().equals("sofa")) {
-			Object[] args = { vo.getProCate() };
+			Object[] args = { vo.getProCate()};
 			return jdbcTemplate.query(getProductListSQL_Cate, args, new ProductMapper());
 		}
 

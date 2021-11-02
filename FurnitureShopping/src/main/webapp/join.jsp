@@ -90,9 +90,8 @@
 									href="contact.html">Contact</a></li>
 							</ul>
 						</div>
-						<!--  ====================== 상단바 아이콘  ====================== -->
-						<!--로그인xxxxx -->
-						<c:if test="${empty user}">
+							<!--로그인xxxxx -->
+						<c:if test="${empty user && empty manager}">
 							<div class="hearer_icon d-flex">
 								<div class="dropdown">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
@@ -123,9 +122,8 @@
 										aria-expanded="false"> <i class="ti-user"></i>
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
-											class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
-
+										<a class="dropdown-item" href="logout.do">로그아웃</a> 
+										<a class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
 									</div>
 								</div>
 
@@ -136,8 +134,39 @@
 									</a>
 								</div>
 
-								<a id="search_1" href="javascript:void(0)"> <i
-									class="ti-search"></i>
+								<a id="search_1" href="javascript:void(0)"> 
+								<i class="ti-search"></i>
+								</a>
+
+
+
+							</div>
+						</c:if>
+						
+						
+						<!-- ======= 관리자 페이지 이동  ========-->
+						<c:if test="${!empty manager}">
+							<div class="hearer_icon d-flex">
+								<div class="dropdown">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="ti-user"></i>
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" href="logout.do">로그아웃</a> 
+										<a class="dropdown-item" href="myPage.do?user=${manager.id}">관리자페이지</a>
+									</div>
+								</div>
+
+								<div class="dropdown cart">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+									</a>
+								</div>
+
+								<a id="search_1" href="javascript:void(0)"> 
+								<i class="ti-search"></i>
 								</a>
 
 
@@ -190,16 +219,17 @@
 					<div class="col-lg-8">
 						<h3>개인정보</h3>
 						<!-- 회원가입 시  -->
-						<c:if test="${empty user}">
+						<c:if test="${empty user && empty manager}">
 							<form class="row contact_form" action="join.do" method="post"
 								name="join">
+								
 								<div class="col-md-8 form-group p_star">
 									<input type="text" class="form-control" id="name" name="name"
 										maxlength="10" required placeholder="성명" />
 								</div>
 								<div class="col-md-8 form-group p_star">
 									<input type="text" class="form-control" id="id" name="id"
-										required placeholder="아이디(숫자,영문자 혼합  5~15자)" />
+										required placeholder="아이디" />
 								</div>
 								<div class="col-md-4 form-group p_star">
 									<a href="#" class="genric-btn default-border circle"
@@ -208,7 +238,7 @@
 
 								<div class="col-md-8 form-group">
 									<input type="password" class="form-control" id="password"
-										name="password" placeholder="비밀번호" required
+										name="password" placeholder="비밀번호(숫자,영문자 혼합  5~15자)" required
 										onchange="checkPw()" />
 								</div>
 								<div class="col-md-8 form-group p_star">
@@ -264,8 +294,9 @@
 						<!-- 회원탈퇴 및 개인정보 수정 시 -->
 						<c:if test="${!empty user}">
 							<form class="row contact_form" action="updateMember.do"
-								method="post" name="updateMember">
+								method="post" name="updateMember" enctype="multipart/form-data">
 								<input type="hidden" name="admin" value="${user.admin}">
+								<input type="hidden" name="profile" value="${user.profile}">
 								<div class="col-md-12 form-group p_star">
 									<input type="text" class="form-control" id="name" name="name"
 										maxlength="10" required value="${user.name}" />
@@ -322,15 +353,15 @@
 										name="etcAddr" placeholder="상세주소" required
 										value="${user.etcAddr}" />
 								</div>
-								<!-- ============= 프로필 사진 변 경 아직 xxxxxxxxxxxxx ==============  -->
+								<!-- ============= 프로필 사진 변경 =============  -->
+
 								<div class="col-md-8 form-group p_star">
-									<input type="text" class="form-control" id="profile"
-										name="profile" placeholder="프로필" required
-										value="${user.profile}" />
+								<p>사진변경</p>
+									<input type="file" class="form-control" id="mImg"
+										name="fileUpload"/>
+                                <img src="${user.profile}" alt="profile" class="profilImg"> 
 								</div>
-								<div class="col-md-4 form-group p_star">
-									<a href="#" class="genric-btn default-border circle">사진 변경</a>
-								</div>
+								
 
 
 								<div class="col-md-12 form-group">
@@ -342,6 +373,93 @@
 							</form>
 						</c:if>
 						<!-- ---------------------------------- -->
+					
+					<!-- ---------------------------------- -->
+						<!-- 관리자 개인정보 수정 시 -->
+						<c:if test="${!empty manager}">
+							<form class="row contact_form" action="updateMember.do"
+								method="post" name="updateMember" enctype="multipart/form-data">
+								<input type="hidden" name="admin" value="${manager.admin}">
+								<input type="hidden" name="profile" value="${manager.profile}">
+								<div class="col-md-12 form-group p_star">
+									<input type="text" class="form-control" id="name" name="name"
+										maxlength="10" required value="${manager.name}" />
+								</div>
+								<div class="col-md-8 form-group p_star">
+									<input type="text" class="form-control" id="id" name="id"
+										required value="${manager.id}" readonly="readonly" />
+								</div>
+
+								<div class="col-md-8 form-group">
+									<input type="password" class="form-control" id="password"
+										name="password" placeholder="비밀번호" required
+										value="${manager.password}" onchange="checkPw()" />
+								</div>
+								<div class="col-md-8 form-group p_star">
+									<input type="password" class="form-control" id="rePassword"
+										name="rePassword" placeholder="비밀번호 확인" required
+										onchange="checkPw()" />
+								</div>
+								<div class="col-md-4 form-group p_star">
+									<p id="check"></p>
+								</div>
+								<div class="col-md-12 form-group p_star">
+									<input type="text" class="form-control" id="email" name="email"
+										placeholder="이메일" required value="${manager.email}" />
+								</div>
+								<div class="col-md-6 form-group p_star">
+									<input type="text" class="form-control" id="phone" name="phone"
+										placeholder="전화번호" required value="${manager.phone}" />
+								</div>
+
+								<div class="col-md-6 form-group">
+									<input type="date" class="form-control" id="birth" name="birth"
+										max="9999-12-31" min="1000-01-01" required
+										value="${manager.birth}" />
+								</div>
+
+								<!-- 주소 API  -->
+								<div class="col-md-8 form-group p_star">
+									<input type="text" class="form-control" id="pCode" name="pCode"
+										placeholder="우편번호" required value="${manager.pCode}" />
+								</div>
+								<div class="col-md-4 form-group p_star">
+									<a href="#" class="genric-btn default-border circle">우편번호
+										찾기</a>
+								</div>
+
+								<div class="col-md-12 form-group p_star">
+									<input type="text" class="form-control" id="addr" name="addr"
+										placeholder="주소(도로명/지번주소)" required value="${manager.addr}" />
+								</div>
+								<div class="col-md-12 form-group p_star">
+									<input type="text" class="form-control" id="etcAddr"
+										name="etcAddr" placeholder="상세주소" required
+										value="${manager.etcAddr}" />
+								</div>
+								<!-- ============= 프로필 사진 변경 =============  -->
+
+								<div class="col-md-8 form-group p_star">
+								<p>사진변경</p>
+									<input type="file" class="form-control" id="mImg"
+										name="fileUpload"/>
+                                <img src="${manager.profile}" alt="profile" class="profilImg"> 
+								</div>
+								
+
+
+								<div class="col-md-12 form-group">
+									<button type="submit" value="submit" class="btn_3">내정보
+										수정</button>
+									<button type="button" onclick="quit()" class="btn_3">탈퇴하기</button>
+								</div>
+
+							</form>
+						</c:if>
+						<!-- ---------------------------------- -->
+					
+					
+					
 					</div>
 				</div>
 			</div>
@@ -614,6 +732,49 @@
 	}
 	
 	
+	// 파일 미리보기
+	document.addEventListener('DOMContentLoaded', function(){
+	       //이미지 객체 타입으로 이미지 확장자 밸리데이션
+	       var validateType = function(img){
+	           return (['image/jpeg','image/jpg','image/png'].indexOf(img.type) > -1);
+	       }
+
+	       var validateName = function(fname){
+	           let extensions = ['jpeg', 'jpg', 'png'];
+	           let fparts = fname.split('.');
+	           let fext = '';
+	       
+	           if(fparts.length > 1){
+	               fext = fparts[fparts.length-1];
+	           }
+	       
+	           let validated = false;
+	           
+	           if(fext != ''){
+	               extensions.forEach(function(ext){
+	                   if(ext == fext){
+	                       validated = true;
+	                   }
+	               });
+	           }
+	       
+	           return validated;
+	       }
+
+	       // 파일 선택 필드에 이벤트 리스너 등록
+	       document.getElementById('mImg').addEventListener('change', function(e){
+	           let elem = e.target;
+	           if(validateType(elem.files[0])){
+	               let preview = document.querySelector('.profilImg');
+	               preview.src = URL.createObjectURL(elem.files[0]); //파일 객체에서 이미지 데이터 가져옴.
+	               preview.onload = function() {
+	                   URL.revokeObjectURL(preview.src); //URL 객체 해제
+	               }
+	           }else{
+	           console.log('이미지 파일이 아닙니다.');
+	           }
+	       });
+	   });
 	
 	</script>
 

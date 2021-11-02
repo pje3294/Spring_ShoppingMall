@@ -88,7 +88,7 @@
 						</div>
 						<!--  ====================== 상단바 아이콘  ====================== -->
 						<!--로그인xxxxx -->
-						<c:if test="${empty user}">
+						<c:if test="${empty user && empty manager}">
 							<div class="hearer_icon d-flex">
 								<div class="dropdown">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
@@ -110,7 +110,7 @@
 
 						</c:if>
 
-						<!-- ======= 로그인 시 마이페이지 이동  ========-->
+							<!-- ======= 로그인 시 마이페이지 이동  ========-->
 						<c:if test="${!empty user}">
 							<div class="hearer_icon d-flex">
 								<div class="dropdown">
@@ -119,9 +119,39 @@
 										aria-expanded="false"> <i class="ti-user"></i>
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
-											class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
+										<a class="dropdown-item" href="logout.do">로그아웃</a> 
+										<a class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
+									</div>
+								</div>
 
+								<div class="dropdown cart">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+									</a>
+								</div>
+
+								<a id="search_1" href="javascript:void(0)"> 
+								<i class="ti-search"></i>
+								</a>
+
+
+
+							</div>
+						</c:if>
+						
+						
+						<!-- ======= 관리자 페이지 이동  ========-->
+						<c:if test="${!empty manager}">
+							<div class="hearer_icon d-flex">
+								<div class="dropdown">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="ti-user"></i>
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" href="logout.do">로그아웃</a> 
+										<a class="dropdown-item" href="myPage.do?user=${manager.id}">관리자페이지</a>
 									</div>
 								</div>
 
@@ -183,13 +213,14 @@
 		<div class="container">
 			<div class="row">
 				<!-------------------------------------------------------------------  -->
-				<!-- ============ 내 프로필 영역 ============== -->
+				<!-- ============ 내 프로필 영역 (회원용) ============== -->
+				<c:if test="${!empty user}">
 				<div class="col-lg-4">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget popular_post_widget">
 							<h3 class="widget_title">나의 프로필</h3>
 							<div class="media post_item">
-								<img src="img/post/post_1.png" alt="post">
+								<img src="${user.profile}" alt="post">
 								<div class="media-body">
 									<h3>[${user.name}]님♥</h3>
 									<a href="join.jsp"><span><i>내정보 수정/탈퇴</i></span></a>
@@ -200,12 +231,12 @@
 						<aside class="single_sidebar_widget post_category_widget">
 							<h4 class="widget_title">내 활동</h4>
 							<ul class="list cat-list">
-								<li><a href="#" class="d-flex">
-										<p>Resaurant food</p>
+								<li><a href="formProduct.jsp" class="d-flex">
+										<p>구매내용</p>
 										<p>(37)</p>
 								</a></li>
 								<li><a href="#" class="d-flex">
-										<p>Travel news</p>
+										<p>리뷰</p>
 										<p>(10)</p>
 								</a></li>
 								<li><a href="#" class="d-flex">
@@ -228,6 +259,61 @@
 						</aside>
 					</div>
 				</div>
+				
+				</c:if>
+				
+					<!-------------------------------------------------------------------  -->
+				<!-- ============ (관리자페이지) ============== -->
+				<c:if test="${!empty manager}">
+				<div class="col-lg-4">
+					<div class="blog_right_sidebar">
+						<aside class="single_sidebar_widget popular_post_widget">
+							<h3 class="widget_title">나의 프로필</h3>
+							<div class="media post_item">
+							<img src="${manager.profile}" alt="사진">
+								<div class="media-body">
+									<h3>[${manager.name}]님♥</h3>
+									<a href="join.jsp"><span><i>내정보 수정/탈퇴</i></span></a>
+								</div>
+							</div>
+
+						</aside>
+						<aside class="single_sidebar_widget post_category_widget">
+							<h4 class="widget_title">내 활동</h4>
+							<ul class="list cat-list">
+								<li><a href="insertProduct.do" class="d-flex">
+										<p>새상품 추가하기</p>
+								</a></li>
+								<li><a href="#" class="d-flex">
+										<p>리뷰</p>
+										<p>(10)</p>
+								</a></li>
+								<li><a href="#" class="d-flex">
+										<p>Modern technology</p>
+										<p>(03)</p>
+								</a></li>
+								<li><a href="#" class="d-flex">
+										<p>Product</p>
+										<p>(11)</p>
+								</a></li>
+								<li><a href="#" class="d-flex">
+										<p>Inspiration</p>
+										<p>(21)</p>
+								</a></li>
+								<li><a href="#" class="d-flex">
+										<p>Health Care</p>
+										<p>(21)</p>
+								</a></li>
+							</ul>
+						</aside>
+					</div>
+				</div>
+				
+				</c:if>
+				
+				
+				
+				
 				<div class="col-lg-8 posts-list">
 					<div class="single-post">
 						<div class="feature-img">
@@ -662,6 +748,11 @@
 	<script src="js/mail-script.js"></script>
 	<!-- custom js -->
 	<script src="js/custom.js"></script>
+	
+
+	
+	
+	
 </body>
 
 </html>

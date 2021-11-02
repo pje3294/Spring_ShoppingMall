@@ -1,5 +1,6 @@
 package controller.action;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.regex.Pattern;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import model.member.MemberServiceImpl;
 import model.member.MemberVO;
@@ -27,18 +29,27 @@ public class MemberController {
 		System.out.println("msg 초기상태 확인 : " + request.getAttribute("msg"));
 		System.out.println("vo확인: " + vo);
 
-		MemberVO data = memberService.login(vo);
+		MemberVO member = memberService.login(vo);
 
-		System.out.println("data 확인: " + data);
+		System.out.println("member 확인: " + member);
 
-		if (data != null) {
-			session.setAttribute("user", data);
-			return "redirect:index.jsp";
-		} else {
+		if (member == null) { // 로그인 실패,
 			request.setAttribute("msg", "failure"); // 아이디 혹은 비밀번호 불일치 시 화면에 문구 보여줌
 			System.out.println("msg-failure 확인 : " + request.getAttribute("msg"));
 			return "login.jsp";
 		}
+		// 로그인 성공,
+
+		// 1) 관리자 로그인
+		if (member.getAdmin().equals("Y")) {
+			System.out.println("관리자모드로 로그인!!!");
+			session.setAttribute("manager", member);
+			return "main.do";
+		}
+
+		// 2) 회원 로그인
+		session.setAttribute("user", member);
+		return "redirect:index.jsp";
 	}
 
 	@RequestMapping("/logout.do")
@@ -49,7 +60,7 @@ public class MemberController {
 	}
 
 	@RequestMapping("/join.do")
-	public String join(HttpServletRequest request, MemberVO vo) {
+	public String join(MemberVO vo) throws IllegalStateException, IOException {
 
 		memberService.insertMember(vo);
 		return "redirect:index.jsp";
@@ -86,54 +97,43 @@ public class MemberController {
 	}
 
 	@RequestMapping("/updateMember.do")
-	public String updateMember(HttpServletRequest request, HttpServletResponse response, MemberVO vo) {
+	public String updateMember(HttpServletRequest request, HttpServletResponse response, MemberVO vo)
+			throws IllegalStateException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
-
-		String name = ""; // 이름
-		String id = ""; // 아이디
-		String password = ""; // 비밀번호
-		String phone = ""; // 전화번호
-		String email = ""; // 이메일
-		String pCode = ""; // 우편번호
-		String addr = ""; // 도록명(지번)
-		String etcAddr = ""; // 상세주소
-		String admin = ""; // 권한여부
-		String birth = ""; // 생년월일
-		String profile = ""; // 프로필사진
-
-		name = request.getParameter("name");
-		id = request.getParameter("id");
-		password = request.getParameter("password");
-		phone = request.getParameter("phone");
-		email = request.getParameter("email");
-		pCode = request.getParameter("pCode");
-		addr = request.getParameter("addr");
-		etcAddr = request.getParameter("etcAddr");
-		admin = request.getParameter("admin");
-		birth = request.getParameter("birth");
-		profile = request.getParameter("profile");
-
-		vo.setAddr(addr);
-		vo.setAdmin(admin);
-		vo.setBirth(birth);
-		vo.setEmail(email);
-		vo.setEtcAddr(etcAddr);
-		vo.setId(id);
-		vo.setName(name);
-		vo.setPassword(password);
-		vo.setpCode(pCode);
-		vo.setPhone(phone);
-		vo.setProfile(profile);
 
 		System.out.println("vo 확인: " + vo);
 
+		MultipartFile fileUpload = vo.getFileUpload();
+
+		System.out.println("파일업로드: " + fileUpload);
+
+		if (!fileUpload.isEmpty()) {
+			String fileName = fileUpload.getOriginalFilename();
+			System.out.println("파일명 : " + fileName);
+			vo.setProfile("\\images\\member\\" + fileName);
+			fileUpload.transferTo(new File(
+					"C:\\Users\\박정은\\git\\Spring_ShoppingMall\\FurnitureShopping\\src\\main\\webapp\\images\\member\\"
+							+ fileName));
+
+		}
+
 		memberService.updateMember(vo);
-		
+
 		HttpSession session = request.getSession();
+		System.out.println("updateMember.do - vo확인: " +vo);
+
+		if (vo.getAdmin().equals("Y")) {
+			
+			System.out.println("관리자 확인, id: "+vo.getId());
+			session.setAttribute("manager", memberService.getMember(vo));
+			System.out.println("세션확인: "+session.getAttribute("manager"));
+			return "myPage.do";
+		}
+
+		System.out.println("회원 확인");
 		session.setAttribute("user", memberService.getMember(vo));
-		
-		
-		return "redirect:myPage.jsp";
+		return "myPage.do";
+
 	}
 
 	@RequestMapping("/myPage.do")
@@ -141,6 +141,7 @@ public class MemberController {
 
 		String id = (String) session.getAttribute(vo.getId());
 
+		System.out.println("myPage.do id ="+ id);
 		vo.setId(id);
 
 		memberService.getMember(vo);
@@ -157,7 +158,7 @@ public class MemberController {
 		memberService.deleteMember(vo);
 		HttpSession session = request.getSession();
 		session.invalidate();
-		return "redirect:index.jsp";
+		return "main.do";
 	}
 
 }

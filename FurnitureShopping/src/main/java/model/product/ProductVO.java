@@ -2,6 +2,8 @@ package model.product;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ProductVO {
 	/*
 	 * create table product( proCode number(20) primary key, -- 상품번호 proCate
@@ -20,6 +22,7 @@ public class ProductVO {
 
 	private int proCode;
 	private String proCate;
+	private String proSubCate;
 	private String proName;
 	private int proPrice;
 	private int proStock;
@@ -35,9 +38,8 @@ public class ProductVO {
 	private int proFee;
 	private String proCerti;
 	private String proAS;
-	private String proImg1;
-	private String proImg2;
-	private String proImg3;
+	private MultipartFile fileUpload; // 파일입출력
+	private String proImg;
 	private int proSelling;
 
 	private String condition; // 검색 기능 위해
@@ -57,6 +59,14 @@ public class ProductVO {
 
 	public void setProCate(String proCate) {
 		this.proCate = proCate;
+	}
+
+	public String getProSubCate() {
+		return proSubCate;
+	}
+
+	public void setProSubCate(String proSubCate) {
+		this.proSubCate = proSubCate;
 	}
 
 	public String getProName() {
@@ -179,28 +189,20 @@ public class ProductVO {
 		this.proAS = proAS;
 	}
 
-	public String getProImg1() {
-		return proImg1;
+	public MultipartFile getFileUpload() {
+		return fileUpload;
 	}
 
-	public void setProImg1(String proImg1) {
-		this.proImg1 = proImg1;
+	public void setFileUpload(MultipartFile fileUpload) {
+		this.fileUpload = fileUpload;
 	}
 
-	public String getProImg2() {
-		return proImg2;
+	public String getProImg() {
+		return proImg;
 	}
 
-	public void setProImg2(String proImg2) {
-		this.proImg2 = proImg2;
-	}
-
-	public String getProImg3() {
-		return proImg3;
-	}
-
-	public void setProImg3(String proImg3) {
-		this.proImg3 = proImg3;
+	public void setProImg(String proImg) {
+		this.proImg = proImg;
 	}
 
 	public int getProSelling() {
@@ -229,14 +231,13 @@ public class ProductVO {
 
 	@Override
 	public String toString() {
-		return "ProductVO [proCode=" + proCode + ", proCate=" + proCate + ", proName=" + proName + ", proPrice="
-				+ proPrice + ", proStock=" + proStock + ", proDate=" + proDate + ", proRating=" + proRating + ", proKC="
-				+ proKC + ", proColor=" + proColor + ", proCmpt=" + proCmpt + ", proMtrl=" + proMtrl + ", proMnfct="
-				+ proMnfct + ", proNation=" + proNation + ", proSize=" + proSize + ", proFee=" + proFee + ", proCerti="
-				+ proCerti + ", proAS=" + proAS + ", proImg1=" + proImg1 + ", proImg2=" + proImg2 + ", proImg3="
-				+ proImg3 + ", proSelling=" + proSelling + ", condition=" + condition + ", keyword=" + keyword + "]";
+		return "ProductVO [proCode=" + proCode + ", proCate=" + proCate + ", proSubCate=" + proSubCate + ", proName="
+				+ proName + ", proPrice=" + proPrice + ", proStock=" + proStock + ", proDate=" + proDate
+				+ ", proRating=" + proRating + ", proKC=" + proKC + ", proColor=" + proColor + ", proCmpt=" + proCmpt
+				+ ", proMtrl=" + proMtrl + ", proMnfct=" + proMnfct + ", proNation=" + proNation + ", proSize="
+				+ proSize + ", proFee=" + proFee + ", proCerti=" + proCerti + ", proAS=" + proAS + ", fileUpload="
+				+ fileUpload + ", proImg=" + proImg + ", proSelling=" + proSelling + ", condition=" + condition
+				+ ", keyword=" + keyword + "]";
 	}
-
-	
 
 }

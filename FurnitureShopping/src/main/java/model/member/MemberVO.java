@@ -1,5 +1,7 @@
 package model.member;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MemberVO {
 	/*
 	 * create table member( id varchar2(15) primary key, -- 아이디 name varchar2(20)
@@ -20,6 +22,7 @@ public class MemberVO {
 	private String etcAddr;
 	private String admin;
 	private String birth;
+	private MultipartFile fileUpload; // 파일입출력
 	private String profile;
 
 	public String getId() {
@@ -110,11 +113,19 @@ public class MemberVO {
 		this.profile = profile;
 	}
 
+	public MultipartFile getFileUpload() {
+		return fileUpload;
+	}
+
+	public void setFileUpload(MultipartFile fileUpload) {
+		this.fileUpload = fileUpload;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberVO [id=" + id + ", name=" + name + ", password=" + password + ", email=" + email + ", phone="
 				+ phone + ", pCode=" + pCode + ", addr=" + addr + ", etcAddr=" + etcAddr + ", admin=" + admin
-				+ ", birth=" + birth + ", profile=" + profile + "]";
+				+ ", birth=" + birth + ", fileUpload=" + fileUpload + ", profile=" + profile + "]";
 	}
 
 }

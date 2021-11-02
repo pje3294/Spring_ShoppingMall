@@ -89,8 +89,7 @@
                                 </li>
                             </ul>
                         </div>
-                        	<!--  ====================== 상단바 아이콘  ====================== -->
-						<!--로그인xxxxx -->
+                       	<!--로그인xxxxx -->
 						<c:if test="${empty user}">
 							<div class="hearer_icon d-flex">
 								<div class="dropdown">
@@ -122,9 +121,17 @@
 										aria-expanded="false"> <i class="ti-user"></i>
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
-											class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
-
+										<a class="dropdown-item" href="logout.do">로그아웃</a> 
+										<c:choose>
+											<c:when test="${!empty manager}">
+												<a class="dropdown-item" href="myPage.do?manager=${user.id}">관리자 페이지</a>
+											</c:when>
+											<c:otherwise>
+												<a class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
+											</c:otherwise>
+										</c:choose>
+									
+										
 									</div>
 								</div>
 

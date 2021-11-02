@@ -37,7 +37,7 @@
 			<div class="row align-items-center">
 				<div class="col-lg-12">
 					<nav class="navbar navbar-expand-lg navbar-light">
-						<a class="navbar-brand" href="index.jsp"> <img
+						<a class="navbar-brand" href="main.do"> <img
 							src="img/logo.png" alt="logo">
 						</a>
 						<button class="navbar-toggler" type="button"
@@ -87,9 +87,12 @@
 									href="contact.html">Contact</a></li>
 							</ul>
 						</div>
+						
+<!--================================================================================  -->						
+						
 						<!--  ====================== 상단바 아이콘  ====================== -->
 						<!--로그인xxxxx -->
-						<c:if test="${empty user}">
+						<c:if test="${empty user && empty manager}">
 							<div class="hearer_icon d-flex">
 								<div class="dropdown">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
@@ -120,9 +123,8 @@
 										aria-expanded="false"> <i class="ti-user"></i>
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
-											class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
-
+										<a class="dropdown-item" href="logout.do">로그아웃</a> 
+										<a class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
 									</div>
 								</div>
 
@@ -141,7 +143,38 @@
 
 							</div>
 						</c:if>
+						
+						
+						<!-- ======= 관리자 페이지 이동  ========-->
+						<c:if test="${!empty manager}">
+							<div class="hearer_icon d-flex">
+								<div class="dropdown">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="ti-user"></i>
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" href="logout.do">로그아웃</a> 
+										<a class="dropdown-item" href="myPage.do?user=${manager.id}">관리자페이지</a>
+									</div>
+								</div>
 
+								<div class="dropdown cart">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+									</a>
+								</div>
+
+								<a id="search_1" href="javascript:void(0)"> 
+								<i class="ti-search"></i>
+								</a>
+
+
+
+							</div>
+						</c:if>
+<!--================================================================================  -->
 
 					</nav>
 				</div>
@@ -276,7 +309,7 @@
 					<div class="single_feature_post_text">
 						<p>Premium Quality</p>
 						<h3>신상품</h3>
-						<a href="#" class="feature_btn">EXPLORE NOW <i
+						<a href="productList.do?conditon=proDate" class="feature_btn">EXPLORE NOW <i
 							class="fas fa-play"></i></a> <img src="img/feature/feature_3.png"
 							alt="">
 					</div>
@@ -285,7 +318,7 @@
 					<div class="single_feature_post_text">
 						<p>Premium Quality</p>
 						<h3>소파</h3>
-						<a href="#" class="feature_btn">EXPLORE NOW <i
+						<a href="productList.do?proCate=sofa" class="feature_btn">EXPLORE NOW <i
 							class="fas fa-play"></i></a> <img src="img/feature/feature_4.png"
 							alt="">
 					</div>
