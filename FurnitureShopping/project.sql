@@ -134,3 +134,6 @@ select * from product order by proDate desc;
 
 select * from product where proCode=2;
 
+
+
+select * from product where proname like '¤§' order by proDate desc;

@@ -108,8 +108,8 @@
 									</div>
 								</div>
 
-								<a id="search_1" href="javascript:void(0)"><i
-									class="ti-search"></i></a>
+								<!-- <a id="search_1" href="javascript:void(0)"><i
+									class="ti-search"></i></a> -->
 
 							</div>
 
@@ -137,9 +137,9 @@
 									</a>
 								</div>
 
-								<a id="search_1" href="javascript:void(0)"> <i
+								<!-- <a id="search_1" href="javascript:void(0)"> <i
 									class="ti-search"></i>
-								</a>
+								</a> -->
 
 
 
@@ -168,9 +168,9 @@
 									</a>
 								</div>
 
-								<a id="search_1" href="javascript:void(0)"> <i
+								<!-- <a id="search_1" href="javascript:void(0)"> <i
 									class="ti-search"></i>
-								</a>
+								</a> -->
 
 
 
@@ -182,7 +182,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="search_input" id="search_input_box">
+		<!-- <div class="search_input" id="search_input_box">
 			<div class="container ">
 				<form class="d-flex justify-content-between search-inner">
 					<input type="text" class="form-control" id="search_input"
@@ -191,7 +191,7 @@
 					<span class="ti-close" id="close_search" title="Close Search"></span>
 				</form>
 			</div>
-		</div>
+		</div> -->
 	</header>
 	<!-- Header part end-->
 

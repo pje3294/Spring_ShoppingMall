@@ -86,8 +86,8 @@
 									href="contact.html">Contact</a></li>
 							</ul>
 						</div>
-<!--================================================================================  -->						
-						
+						<!--================================================================================  -->
+
 						<!--  ====================== 상단바 아이콘  ====================== -->
 						<!--로그인xxxxx -->
 						<c:if test="${empty user && empty manager}">
@@ -104,8 +104,8 @@
 									</div>
 								</div>
 
-								<a id="search_1" href="javascript:void(0)"><i
-									class="ti-search"></i></a>
+								<!-- <a id="search_1" href="javascript:void(0)"><i
+									class="ti-search"></i></a> -->
 
 							</div>
 
@@ -121,8 +121,8 @@
 										aria-expanded="false"> <i class="ti-user"></i>
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="logout.do">로그아웃</a> 
-										<a class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
+										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
+											class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
 									</div>
 								</div>
 
@@ -133,16 +133,16 @@
 									</a>
 								</div>
 
-								<a id="search_1" href="javascript:void(0)"> 
+								<!-- <a id="search_1" href="javascript:void(0)"> 
 								<i class="ti-search"></i>
-								</a>
+								</a> -->
 
 
 
 							</div>
 						</c:if>
-						
-						
+
+
 						<!-- ======= 관리자 페이지 이동  ========-->
 						<c:if test="${!empty manager}">
 							<div class="hearer_icon d-flex">
@@ -152,8 +152,8 @@
 										aria-expanded="false"> <i class="ti-user"></i>
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="logout.do">로그아웃</a> 
-										<a class="dropdown-item" href="myPage.do?user=${manager.id}">관리자페이지</a>
+										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
+											class="dropdown-item" href="myPage.do?user=${manager.id}">관리자페이지</a>
 									</div>
 								</div>
 
@@ -164,22 +164,22 @@
 									</a>
 								</div>
 
-								<a id="search_1" href="javascript:void(0)"> 
+								<!-- <a id="search_1" href="javascript:void(0)"> 
 								<i class="ti-search"></i>
-								</a>
+								</a> -->
 
 
 
 							</div>
 						</c:if>
-<!--================================================================================  -->
+						<!--================================================================================  -->
 
 
 					</nav>
 				</div>
 			</div>
 		</div>
-		<div class="search_input" id="search_input_box">
+		<!-- <div class="search_input" id="search_input_box">
 			<div class="container ">
 				<form class="d-flex justify-content-between search-inner">
 					<input type="text" class="form-control" id="search_input"
@@ -188,7 +188,7 @@
 					<span class="ti-close" id="close_search" title="Close Search"></span>
 				</form>
 			</div>
-		</div>
+		</div> -->
 	</header>
 	<!-- Header part end-->
 
@@ -219,7 +219,7 @@
 					<div class="product_slider_img">
 						<div id="vertical">
 							<div data-thumb="img/product/single-product/product_1.png">
-								<img src="${data.proImg}" alt="상세이미지"/>
+								<img src="${data.proImg}" alt="상세이미지" />
 							</div>
 							<!-- C:\Users\박정은\git\Spring_ShoppingMall\FurnitureShopping\src\main\webapp\images\product\surface.jpg -->
 							<!--C:\\Users\\박정은\\git\\Spring_ShoppingMall\\FurnitureShopping\\src\\main\\webapp\\${data.proImg} -->
@@ -231,30 +231,17 @@
 
 						<!-- ==================== 관리지는 상품 수정 / 삭제 가능!!!!!!!!!!==================== -->
 						<c:if test="${!empty manager}">
-						<%-- <form method="post" action="formProduct.jsp" name="formProduct">
-						
-						
-							<input type="hidden" name="proCode" value="${data.proCode}">
-							<input type="hidden" name="proCate" value="${data.proCate}">
-							<input type="hidden" name="proSubCate" value="${data.proSubCate}">
-							<input type="hidden" name="proName" value="${data.proName}">
-							<input type="hidden" name="proPrice" value="${data.proPrice}">
-							<input type="hidden" name="proStock" value="${data.proStock}">
-							<input type="hidden" name="proDate" value="${data.proDate}">
-							<input type="hidden" name="proRating" value="${data.proRating}">
-							
-							
-						<button type="submit" value="submit" class="genric-btn info-border circle">상품 수정 | 삭제하기</button>
-						</form> --%>
-						
-						<h5><a href="formProduct.jsp">상품 수정 <span>|</span> 삭제하기</a></h5>
+							<h5>
+								<a href="formProduct.jsp">상품 수정 <span>|</span> 삭제하기
+								</a>
+							</h5>
 						</c:if>
 						<!-- ====================================================================== -->
 						<h3>${data.proName}</h3>
 						<h2>${data.proPrice}원</h2>
 						<ul class="list">
 							<li><a class="active"
-								href="productList.do?proCate=chair&proSubCate=${data.proSubCate}">
+								href="main.do?proCate=${data.proCate}&proSubCate=${data.proSubCate}">
 									<span>Category</span>: ${data.proCate} > ${data.proSubCate}
 							</a></li>
 							<li><a href="#"> <span>Availibility</span> : In Stock

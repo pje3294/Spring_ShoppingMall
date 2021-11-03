@@ -180,16 +180,17 @@
 				</div>
 			</div>
 		</div>
+ 		<!-- ============================ 상단 검색 입력칸 =========================== -->
 		<div class="search_input" id="search_input_box">
 			<div class="container ">
-				<form class="d-flex justify-content-between search-inner">
+				<form class="d-flex justify-content-between search-inner" action="main.do" method="post">
 					<input type="text" class="form-control" id="search_input"
-						placeholder="Search Here">
+						placeholder="찾으시는 상품의 일부를 입력해주세요." name="keyword">
 					<button type="submit" class="btn"></button>
 					<span class="ti-close" id="close_search" title="Close Search"></span>
 				</form>
 			</div>
-		</div>
+		</div> 
 	</header>
 	<!-- Header part end-->
 
@@ -291,7 +292,7 @@
 					<div class="single_feature_post_text">
 						<p>Premium Quality</p>
 						<h3>의자</h3>
-						<a href="productList.do?proCate=chair" class="feature_btn">EXPLORE NOW <i
+						<a href="main.do?proCate=chair" class="feature_btn">EXPLORE NOW <i
 							class="fas fa-play"></i></a> <img src="img/feature/feature_1.png"
 							alt="">
 					</div>
@@ -300,7 +301,7 @@
 					<div class="single_feature_post_text">
 						<p>Premium Quality</p>
 						<h3>스툴</h3>
-						<a href="productList.do?proCate=stool" class="feature_btn">EXPLORE NOW <i
+						<a href="main.do?proCate=stool" class="feature_btn">EXPLORE NOW <i
 							class="fas fa-play"></i></a> <img src="img/feature/feature_2.png"
 							alt="">
 					</div>
@@ -309,7 +310,7 @@
 					<div class="single_feature_post_text">
 						<p>Premium Quality</p>
 						<h3>신상품</h3>
-						<a href="productList.do?conditon=proDate" class="feature_btn">EXPLORE NOW <i
+						<a href="main.do?condition=proDate" class="feature_btn">EXPLORE NOW <i
 							class="fas fa-play"></i></a> <img src="img/feature/feature_3.png"
 							alt="">
 					</div>
@@ -318,7 +319,7 @@
 					<div class="single_feature_post_text">
 						<p>Premium Quality</p>
 						<h3>소파</h3>
-						<a href="productList.do?proCate=sofa" class="feature_btn">EXPLORE NOW <i
+						<a href="main.do?proCate=sofa" class="feature_btn">EXPLORE NOW <i
 							class="fas fa-play"></i></a> <img src="img/feature/feature_4.png"
 							alt="">
 					</div>

@@ -33,7 +33,7 @@ class ProductMapper implements RowMapper<ProductVO> {
 		data.setProCerti(rs.getString("proCerti"));
 		data.setProAS(rs.getString("proAS"));
 		data.setProImg(rs.getString("proImg"));
-		System.out.println("dsfdd: "+data.getProImg());
+		System.out.println("mapper date :" + data);
 		return data;
 	}
 
@@ -56,9 +56,9 @@ public class ProductDAO {
 	 * varchar2(200)default 'nonImg.png', -- 상품 이미지2 proImg3 varchar2(200) default
 	 * 'nonImg.png', -- 상품 이미지3 proSelling number(20) default 0
 	 */
-	private final String insertSQL = "insert into product (proCode, proCate, proName, proPrice, proStock, proKC, "
+	private final String insertSQL = "insert into product (proCode, proCate,proSubCate, proName, proPrice, proStock, proKC, "
 			+ "proColor, proCmpt, proMtrl, proMnfct, proNation, proSize, proFee, proCerti, proAS, proImg) "
-			+ "values((select nvl(max(proCode),0)+1 from product),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			+ "values((select nvl(max(proCode),0)+1 from product),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	// 상품 등록일, 평점은 수정 xxxx
 	private final String updateSQL = "update product set proCate=?, proSubCate=?, proName=? , proPrice=?, proStock=?, proKC=?, proColor=? , proCmpt=?, "
@@ -87,13 +87,13 @@ public class ProductDAO {
 
 	// 상품 추가(관리자영역)
 	public void insertProduct(ProductVO vo) {
-		System.out.println("ProductDAO-insertMember 실행");
+		System.out.println("ProductDAO-insertProduct 실행");
 		// (proCode, proCate, proName, proPrice, proStock, proKC, "
 		// "proColor, proCmpt, proMtrl, proMnfct, proNation, proSize, proFee, proCerti,
 		// proAS, proImg1, proImg2, proImg3)
-		Object[] args = { vo.getProCate(), vo.getProName(), vo.getProPrice(), vo.getProStock(), vo.getProKC(),
-				vo.getProColor(), vo.getProCmpt(), vo.getProMtrl(), vo.getProMnfct(), vo.getProNation(),
-				vo.getProSize(), vo.getProFee(), vo.getProCerti(), vo.getProAS(), vo.getProImg()};
+		Object[] args = { vo.getProCate(), vo.getProSubCate(), vo.getProName(), vo.getProPrice(), vo.getProStock(),
+				vo.getProKC(), vo.getProColor(), vo.getProCmpt(), vo.getProMtrl(), vo.getProMnfct(), vo.getProNation(),
+				vo.getProSize(), vo.getProFee(), vo.getProCerti(), vo.getProAS(), vo.getProImg() };
 		jdbcTemplate.update(insertSQL, args);
 
 	}
@@ -106,8 +106,8 @@ public class ProductDAO {
 		// proColor=? , proCmpt=?, "
 		// + "proMtrl=?, proMnfct=?, proNation=?, proSize=?, proFee=?, proCerti=?,
 		// proAS=?, proImg1=?, proImg2=?, proImg3=? where proCode=?";
-		Object[] args = { vo.getProCate(),vo.getProSubCate(), vo.getProName(), vo.getProPrice(), vo.getProStock(), vo.getProKC(),
-				vo.getProColor(), vo.getProCmpt(), vo.getProMtrl(), vo.getProMnfct(), vo.getProNation(),
+		Object[] args = { vo.getProCate(), vo.getProSubCate(), vo.getProName(), vo.getProPrice(), vo.getProStock(),
+				vo.getProKC(), vo.getProColor(), vo.getProCmpt(), vo.getProMtrl(), vo.getProMnfct(), vo.getProNation(),
 				vo.getProSize(), vo.getProFee(), vo.getProCerti(), vo.getProAS(), vo.getProImg(), vo.getProCode() };
 		jdbcTemplate.update(updateSQL, args);
 	}
@@ -156,44 +156,55 @@ public class ProductDAO {
 		String getProductListSQL_Cate = "SELECT * FROM (select ROWNUM AS RNUM, product.* FROM(select * from product where proCate=? order by proDate desc) product WHERE ROWNUM <= 5) WHERE RNUM > 0 ORDER BY proDate DESC";
 		String getProductListSQL_SubCate = "SELECT * FROM (select ROWNUM AS RNUM, product.* FROM(select * from product where proCate=? and proSubCate=? order by proDate desc) product WHERE ROWNUM <= 5) WHERE RNUM > 0 ORDER BY proDate DESC";
 		String getProductList_ALL = "select * from product order by proDate desc";
-		String getProductListSQL_ProDate = "select rownum as rnum, product.* from(select * from product where proName=? order by proDate desc) product "
-				+ "where rownum <= 5) where rnum >0? order by proDate desc";
+		String getProductList_ProName = "SELECT * FROM (select ROWNUM AS RNUM, product.* FROM(select * from product where proName like '%'||?||'%' order by proDate desc) product WHERE ROWNUM <= 5) WHERE RNUM > 0 ORDER BY proDate DESC";
+		;
 
 		System.out.println("vo확인" + vo);
-		if(vo.getProCode()==0 && vo.getProCate()== null) { // 메인 시작시 
-			System.out.println("초기");
-			return jdbcTemplate.query(getProductList_ALL, new ProductMapper());
-		}
-		
-		
-		// 카테고리 선택 (의자, 스툴, 소파)
-		if (vo.getProCate().equals("chair")) {
-			if(vo.getProSubCate() !=null) { // 의자 하위 카테고리                                                                                                                                                                                                                                                                                                                                                                                           
-				System.out.println("vo.getProCate확인: "+vo.getProCate());
-				System.out.println("vo.getProSubCate확인: "+vo.getProSubCate());
-				
+		System.out.println("get Condtion : " + vo.getCondition());
+
+		if (vo.getKeyword() != null) { // 상품 정렬, 검색 시
+			System.out.println("vo.getKeyword 이 null아닐때");
+			System.out.println("condition & keyword " + vo.getCondition() + " : " + vo.getKeyword());
+			Object[] args = { vo.getKeyword() };
+			String sql_ProName = "select * from product where proName like '%'||?||'%' order by proDate desc";
+			return jdbcTemplate.query(sql_ProName, args, new ProductMapper());
+
+		} else {
+			System.out.println("컨디션이 널일때");
+			if (vo.getProCate().equals("chair")) {
+				if (vo.getProSubCate() != null) { // 의자 하위 카테고리
+					System.out.println("의자만");
+					System.out.println("vo.getProCate확인: " + vo.getProCate());
+					System.out.println("vo.getProSubCate확인: " + vo.getProSubCate());
+
+					Object[] args = { vo.getProCate(), vo.getProSubCate() };
+					return jdbcTemplate.query(getProductListSQL_SubCate, args, new ProductMapper());
+				}
+
+				System.out.println("vo.getProCate확인: " + vo.getProCate());
+				Object[] args = { vo.getProCate() };
+				return jdbcTemplate.query(getProductListSQL_Cate, args, new ProductMapper());
+
+			} else if (vo.getProCate().equals("stool")) {
+				System.out.println("스툴만");
+				Object[] args = { vo.getProCate() };
+				return jdbcTemplate.query(getProductListSQL_Cate, args, new ProductMapper());
+			} else if (vo.getProCate().equals("sofa")) {
+				if (vo.getProSubCate() != null) { 
+				System.out.println("소파만");
+				System.out.println("vo.getProCate확인: " + vo.getProCate());
+				System.out.println("vo.getProSubCate확인: " + vo.getProSubCate());
+
 				Object[] args = { vo.getProCate(), vo.getProSubCate() };
 				return jdbcTemplate.query(getProductListSQL_SubCate, args, new ProductMapper());
-			}
-			
-			System.out.println("vo.getProCate확인: "+vo.getProCate());
-			Object[] args = { vo.getProCate()};
-			return jdbcTemplate.query(getProductListSQL_Cate, args, new ProductMapper());
-			
-		} else if (vo.getProCate().equals("stool")) {
-			Object[] args = { vo.getProCate()};
-			return jdbcTemplate.query(getProductListSQL_Cate, args, new ProductMapper());
-		} else if (vo.getProCate().equals("sofa")) {
-			Object[] args = { vo.getProCate()};
-			return jdbcTemplate.query(getProductListSQL_Cate, args, new ProductMapper());
+				}
+
+				System.out.println("vo.getProCate확인: " + vo.getProCate());
+				Object[] args = { vo.getProCate() };
+				return jdbcTemplate.query(getProductListSQL_Cate, args, new ProductMapper());
+			} 
 		}
 
-		// 신상품(등록날짜순_proDate), 검색(상품명_proName), 세부페이지에서의 평점순(proRating) & 가격순(proPrice)
-		if (vo.getCondition().equals("proDate")) {
-
-			Object[] args = { vo.getKeyword() };
-			return jdbcTemplate.query(getProductListSQL_ProDate, args, new ProductMapper());
-		}
 		System.out.println("로깅체크");
 		return jdbcTemplate.query(getProductList_ALL, new ProductMapper());
 
