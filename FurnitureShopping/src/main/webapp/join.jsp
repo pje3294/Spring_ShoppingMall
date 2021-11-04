@@ -130,7 +130,7 @@
 								<div class="dropdown cart">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
 										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+										aria-expanded="false"> <i class="fas fa-cart-plus"><span class="cartNew">${cartCnt}</span></i>
 									</a>
 								</div>
 
@@ -161,7 +161,7 @@
 								<div class="dropdown cart">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
 										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+										aria-expanded="false"> <i class="fas fa-cart-plus"><span class="cartNew">${cartCnt}</span></i>
 									</a>
 								</div>
 

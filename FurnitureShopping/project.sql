@@ -53,9 +53,11 @@ proSelling number(20) default 0 -- 판매수
 create table ordHistory(
 ordCode number(20) primary key, -- 주문번호
 proCode number(20) not null, -- 상품번호 (FK)
+proName varchar2(100) not null, -- 상품명
 id varchar2(15) not null, -- 아이디 (FK)
 amount number(5) not null, -- 수량
 payment number(10) not null, -- 총 주문가격
+proImg varchar2(200) default 'images\\product\\nonImg.png', -- 상품 이미지
 pCode varchar2(6) not null, -- 배송지(우편번호)
 addr varchar2(100) not null, -- 배송지 주소
 etcAddr varchar2(100) not null, -- 배송지(상새주소)

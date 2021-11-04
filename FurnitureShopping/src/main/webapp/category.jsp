@@ -184,7 +184,7 @@
 				</div>
 			</div>
 		</div>
-<!--  메인에서만 전체 상품명 검색 가능
+		<!--  메인에서만 전체 상품명 검색 가능
 		<div class="search_input" id="search_input_box">
 			<div class="container ">
 				<form class="d-flex justify-content-between search-inner" action="productList.do" method="post">
@@ -225,79 +225,85 @@
 					<div class="left_sidebar_area">
 						<aside class="left_widgets p_filter_widgets">
 							<div class="l_w_title">
-								<h3>Browse Categories</h3>
+								<h3>SubCategory</h3>
 							</div>
-							<div class="widgets_inner">
-								<ul class="list">
-									<li><a href="#">Frozen Fish</a> <span>(250)</span></li>
-									<li><a href="#">Dried Fish</a> <span>(250)</span></li>
-									<li><a href="#">Fresh Fish</a> <span>(250)</span></li>
-									<li><a href="#">Meat Alternatives</a> <span>(250)</span></li>
-									<li><a href="#">Fresh Fish</a> <span>(250)</span></li>
-									<li><a href="#">Meat Alternatives</a> <span>(250)</span></li>
-									<li><a href="#">Meat</a> <span>(250)</span></li>
-								</ul>
-							</div>
-						</aside>
+							<!-- <div class="widgets_inner"> -->
+							<c:set var="proCate" value="${param.proCate}" />
 
-						<aside class="left_widgets p_filter_widgets">
-							<div class="l_w_title">
-								<h3>Product filters</h3>
-							</div>
-							<div class="widgets_inner">
-								<ul class="list">
-									<li><a href="#">Apple</a></li>
-									<li><a href="#">Asus</a></li>
-									<li class="active"><a href="#">Gionee</a></li>
-									<li><a href="#">Micromax</a></li>
-									<li><a href="#">Samsung</a></li>
-								</ul>
-								<ul class="list">
-									<li><a href="#">Apple</a></li>
-									<li><a href="#">Asus</a></li>
-									<li class="active"><a href="#">Gionee</a></li>
-									<li><a href="#">Micromax</a></li>
-									<li><a href="#">Samsung</a></li>
-								</ul>
-							</div>
-						</aside>
+							<c:if test="${proCate eq 'chair'}">
+								<div class="widgets_inner">
+									<ul class="list">
+										<li><a href="main.do?proCate=chair&proSubCate=interior">interior</a></li>
+										<li><a href="main.do?proCate=chair&proSubCate=sitting">sitting</a></li>
+									</ul>
+								</div>
+							</c:if>
+							<c:if test="${proCate eq 'stool'}">
+								<div class="widgets_inner">
+									<ul class="list">
+										<li><a href="main.do?proCate=stool&proSubCate=l">no
+												category</a></li>
+									</ul>
+								</div>
+							</c:if>
+							<c:if test="${proCate eq'sofa'}">
+								<div class="widgets_inner">
+									<ul class="list">
+										<li><a href="main.do?proCate=sofa&proSubCate=normal">normal</a></li>
+										<li><a href="main.do?proCate=sofa&proSubCate=beanbag">beanbag</a></li>
+									</ul>
+								</div>
+							</c:if>
+							<c:if test="${empty proCate}">
+								<div class="widgets_inner">
+									<div class="col-lg-9">
+										<div class="row">
+											<div class="col-lg-12">
+												<div
+													class="product_top_bar d-flex justify-content-between align-items-center">
+													<!-- <div class="single_product_menu">
+														<p>
+															<span>10000 </span> Prodict Found
+														</p>
+													</div> -->
 
-						<aside class="left_widgets p_filter_widgets">
-							<div class="l_w_title">
-								<h3>Color Filter</h3>
-							</div>
-							<div class="widgets_inner">
-								<ul class="list">
-									<li><a href="#">Black</a></li>
-									<li><a href="#">Black Leather</a></li>
-									<li class="active"><a href="#">Black with red</a></li>
-									<li><a href="#">Gold</a></li>
-									<li><a href="#">Spacegrey</a></li>
-								</ul>
-							</div>
-						</aside>
+													<form action="main.do" method="post">
+														<div class="single_product_menu">
 
-						<aside class="left_widgets p_filter_widgets price_rangs_aside">
-							<div class="l_w_title">
-								<h3>Price Filter</h3>
-							</div>
-							<div class="widgets_inner">
-								<div class="range_item">
-									<!-- <div id="slider-range"></div> -->
-									<input type="text" class="js-range-slider" value="" />
-									<div class="d-flex">
-										<div class="price_text">
-											<p>Price :</p>
-										</div>
-										<div class="price_value d-flex justify-content-center">
-											<input type="text" class="js-input-from" id="amount" readonly />
-											<span>to</span> <input type="text" class="js-input-to"
-												id="amount" readonly />
+															<div class="input-group">
+																<input type="text" class="form-control"
+																	placeholder="search"
+																	aria-describedby="inputGroupPrepend" name="keyword">
+																<div class="input-group-prepend">
+																	<button type="submit" class="btn">
+																		<span class="input-group-text" id="inputGroupPrepend">
+																			<i class="ti-search"></i>
+																		</span>
+																	</button>
+
+																</div>
+															</div>
+														</div>
+													</form>
+
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
+							</c:if>
+							<!-- <li><a href="#">Meat Alternatives</a> <span>(250)</span></li>
+									<li><a href="#">Fresh Fish</a> <span>(250)</span></li>
+									<li><a href="#">Meat Alternatives</a> <span>(250)</span></li>
+									<li><a href="#">Meat</a> <span>(250)</span></li> -->
+
+							<!-- </div> -->
 						</aside>
+
+
+
+
+
 					</div>
 				</div>
 				<div class="col-lg-9">
@@ -308,7 +314,7 @@
 								<div class="single_product_menu">
 									<!-- <p><span>10000 </span> Prodict Found</p> -->
 								</div>
-								
+
 								<!-- <div class="single_product_menu d-flex">
 									<div class="input-group">
 										<input type="text" class="form-control" placeholder="search"
@@ -324,116 +330,46 @@
 					</div>
 
 					<!-- ==============  상품 정렬 section ======================= -->
+
+
+
+
+
+
 					<div class="row align-items-center latest_product_inner">
-						<c:forEach var="v" items="${datas}">
+						<c:forEach var="v" items="${datas}" varStatus="status">
 							<div class="col-lg-4 col-sm-6">
-								<div class="single_product_item">
-									<a href="productDetail.do?proCode=${v.proCode}"><img
-										src="${v.proImg}" alt="상품이미지"></a>
-									<div class="single_product_text">
-										<h4>${v.proName}</h4>
-										<h3>${v.proPrice}원</h3>
-										<a href="#" class="add_cart">+ add to cart<i
-											class="ti-heart"></i></a>
+								<form action="addCart.do?status=${status.index}" method="post"
+									name="addCart">
+									<input type="hidden" name="id" value="${user.id}"> <input
+										type="hidden" name="proCode" value="${v.proCode}"> <input
+										type="hidden" name="proImg" value="${v.proImg}"> <input
+										type="hidden" name="proName" value="${v.proName}"> <input
+										type="hidden" name="proPrice" value="${v.proPrice}"> <input
+										type="hidden" name="amount" type="number" value="1">
+
+									<div class="single_product_item">
+										<a href="productDetail.do?proCode=${v.proCode}"><img
+											src="${v.proImg}" alt="상품이미지"></a>
+										<div class="single_product_text">
+											<h4>${v.proName}</h4>
+											<h3>${v.proPrice}원</h3>
+											<%-- <a href="addCart.do?staus=${status.index}&amount=1&" class="add_cart">+ add to cart</a> --%>
+											<button type="submit" class="add_cart" onclick="login_check()" style="color: #ff3368; text-transform: uppercase; border: none; background-color: white;">+
+												add to cart</button>
+										</div>
 									</div>
-								</div>
+								</form>
 							</div>
 						</c:forEach>
 						<c:if test="${empty datas}">
 							<div class="breadcrumb_iner_item">
-							<h3><i>Sorry,, This product does not exist...</i></h3>
-						</div>
+								<h3>
+									<i>Sorry,, This product does not exist...</i>
+								</h3>
+							</div>
 						</c:if>
-						<!-- <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_1.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_3.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_4.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_5.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_6.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_7.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_8.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div> -->
+
 						<div class="col-lg-12">
 							<div class="pageination">
 								<nav aria-label="Page navigation example">
@@ -455,6 +391,9 @@
 							</div>
 						</div>
 					</div>
+
+
+
 				</div>
 			</div>
 		</div>
@@ -655,6 +594,20 @@
 	<script src="js/price_rangs.js"></script>
 	<!-- custom js -->
 	<script src="js/custom.js"></script>
+	
+	<script type="text/javascript">
+	function login_check(){ 
+        var user = '<%=(String)session.getAttribute("user")%>';
+
+         if(user=="null"){ 
+            swal("로그인이 필요한 항목입니다.","회원 가입 또는 로그인을 해주세요", "error"); 
+            history.go(-1)();
+         }
+
+   }   
+	
+	</script>
+	
 </body>
 
 </html>

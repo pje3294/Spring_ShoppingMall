@@ -129,7 +129,7 @@
 								<div class="dropdown cart">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
 										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+										aria-expanded="false"> <i class="fas fa-cart-plus"><span class="cartNew">${cartCnt}</span></i>
 									</a>
 								</div>
 
@@ -160,7 +160,7 @@
 								<div class="dropdown cart">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
 										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+										aria-expanded="false"> <i class="fas fa-cart-plus"><span class="cartNew">${cartCnt}</span></i>
 									</a>
 								</div>
 
@@ -250,18 +250,27 @@
 						<p>First replenish living. Creepeth image image. Creeping
 							can't, won't called. Two fruitful let days signs sea together all
 							land fly subdue</p>
-						<div
-							class="card_area d-flex justify-content-between align-items-center">
-							<div class="product_count">
-								<span class="inumber-decrement"> <i class="ti-minus"></i></span>
-								<input class="input-number" type="text" value="1" min="0"
-									max="10"> <span class="number-increment"> <i
-									class="ti-plus"></i></span>
-							</div>
-							<a href="#" class="btn_3">add to cart</a> <a href="#"
-								class="like_us"> <i class="ti-heart"></i>
-							</a>
+							
+							
+					<!--========================== 장바구니 추가하기  ==========================  -->		
+							<form action="addCart.do" method="post" name="addCart">
+							<input type="hidden" name="id" value="${user.id}">
+							<input type="hidden" name="proCode" value="${data.proCode}">
+							<input type="hidden" name="proImg" value="${data.proImg}">
+							<input type="hidden" name="proName" value="${data.proName}">
+							<input type="hidden" name="proPrice" value="${data.proPrice}">
+							
+						<div class="card_area d-flex justify-content-between align-items-center">
+								<div class="product_count">
+									<span class="inumber-decrement"> <i class="ti-minus"></i></span>
+									<input class="input-number" type="number" value="1" min="0"
+										max="10" name="amount"> <span class="number-increment"> <i
+										class="ti-plus"></i></span>
+								</div>
+								<button type="submit" class="btn_3">add to cart</button>
+								<!-- <a href="#" class="like_us"></a> -->
 						</div>
+							</form>
 					</div>
 				</div>
 			</div>

@@ -3,6 +3,8 @@ package controller.action;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import model.member.MemberServiceImpl;
 import model.member.MemberVO;
+import model.ordHistory.OrdHistoryVO;
 
 @Controller
 public class MemberController {
@@ -49,6 +52,12 @@ public class MemberController {
 
 		// 2) 회원 로그인
 		session.setAttribute("user", member);
+		// 장바구니 생성
+		List<OrdHistoryVO> cart = new ArrayList<OrdHistoryVO>();
+		session.setAttribute("cart", cart);
+		int cartCnt =0;
+		session.setAttribute("cartCnt", cartCnt);
+		
 		return "redirect:index.jsp";
 	}
 

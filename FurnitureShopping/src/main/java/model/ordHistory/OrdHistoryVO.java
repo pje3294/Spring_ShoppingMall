@@ -18,10 +18,12 @@ public class OrdHistoryVO {
 
 	private int ordCode;
 	private int proCode;
+	private String proName;
 	private String id;
 	private int amount;
 	private int payment;
 	private String pCode;
+	private String proImg;
 	private String addr;
 	private String etcAddr;
 	private String recName;
@@ -29,6 +31,7 @@ public class OrdHistoryVO {
 	private Date orderDate;
 	private String memo;
 	private String revYN;
+	private int proPrice; // 실제 저장은 안되는 변수 장바구니 위해서
 
 	public int getOrdCode() {
 		return ordCode;
@@ -44,6 +47,30 @@ public class OrdHistoryVO {
 
 	public void setProCode(int proCode) {
 		this.proCode = proCode;
+	}
+
+	public String getProName() {
+		return proName;
+	}
+
+	public int getProPrice() {
+		return proPrice;
+	}
+
+	public void setProPrice(int proPrice) {
+		this.proPrice = proPrice;
+	}
+
+	public String getProImg() {
+		return proImg;
+	}
+
+	public void setProImg(String proImg) {
+		this.proImg = proImg;
+	}
+
+	public void setProName(String proName) {
+		this.proName = proName;
 	}
 
 	public String getId() {
@@ -136,10 +163,10 @@ public class OrdHistoryVO {
 
 	@Override
 	public String toString() {
-		return "OrdHistoryVO [ordCode=" + ordCode + ", proCode=" + proCode + ", id=" + id + ", amount=" + amount
-				+ ", payment=" + payment + ", pCode=" + pCode + ", addr=" + addr + ", etcAddr=" + etcAddr + ", recName="
-				+ recName + ", recPhone=" + recPhone + ", orderDate=" + orderDate + ", memo=" + memo + ", revYN="
-				+ revYN + "]";
+		return "OrdHistoryVO [ordCode=" + ordCode + ", proCode=" + proCode + ", proName=" + proName + ", id=" + id
+				+ ", amount=" + amount + ", payment=" + payment + ", pCode=" + pCode + ", proImg=" + proImg + ", addr="
+				+ addr + ", etcAddr=" + etcAddr + ", recName=" + recName + ", recPhone=" + recPhone + ", orderDate="
+				+ orderDate + ", memo=" + memo + ", revYN=" + revYN + ", proPrice=" + proPrice + "]";
 	}
 
 }

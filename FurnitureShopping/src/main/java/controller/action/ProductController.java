@@ -34,12 +34,26 @@ public class ProductController {
 	@RequestMapping("/main.do")
 	public String getProductList(ProductVO vo, Model model) {
 		System.out.println("main.do 확인");
-		if (vo.getProCode() == 0 && vo.getKeyword() == null && vo.getProCate()==null) {
+		
+	/*	if(vo.getCondition() != null) {
+			List<ProductVO> datas = productService.getProList(vo);
+			model.addAttribute("datas", datas);
+			System.out.println("*신상품(최신순) model.addAttribute : " + datas);
+
+			int cnt = datas.size();
+			model.addAttribute("cnt",cnt); // 전체 상품 갯수
+			
+			
+			return "category.jsp";
+		}*/
+		
+		
+		if (vo.getProCode() == 0 && vo.getCondition()==null && vo.getKeyword() == null && vo.getProCate() == null) {
 			System.out.println("main첫화면 전체 확인");
 			List<ProductVO> datas = productService.getProList(vo);
 			model.addAttribute("datas", datas);
 			System.out.println("(main.do) proCode==null ->  model.addAttribute : " + datas);
-
+			
 			return "main.jsp";
 		}
 
@@ -47,9 +61,11 @@ public class ProductController {
 		model.addAttribute("datas", datas);
 		System.out.println("매인-신상품(최신순) model.addAttribute : " + datas);
 
+		int cnt = datas.size();
+		model.addAttribute("cnt",cnt); // 전체 상품 갯수
+		
 		return "category.jsp";
 	}
-
 
 	@RequestMapping("/productDetail.do")
 	public String getProduct(ProductVO vo, Model model) {

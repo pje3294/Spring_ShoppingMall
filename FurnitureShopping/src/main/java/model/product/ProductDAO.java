@@ -33,7 +33,7 @@ class ProductMapper implements RowMapper<ProductVO> {
 		data.setProCerti(rs.getString("proCerti"));
 		data.setProAS(rs.getString("proAS"));
 		data.setProImg(rs.getString("proImg"));
-		System.out.println("mapper date :" + data);
+		//System.out.println("mapper date :" + data);
 		return data;
 	}
 
@@ -153,16 +153,16 @@ public class ProductDAO {
 	// 메인 -> 선택한 카테고리 상품 목록 (category.jsp)
 	public List<ProductVO> getProList(ProductVO vo) {
 		System.out.println("ProductDAO-getProList 실행");
-		String getProductListSQL_Cate = "SELECT * FROM (select ROWNUM AS RNUM, product.* FROM(select * from product where proCate=? order by proDate desc) product WHERE ROWNUM <= 5) WHERE RNUM > 0 ORDER BY proDate DESC";
-		String getProductListSQL_SubCate = "SELECT * FROM (select ROWNUM AS RNUM, product.* FROM(select * from product where proCate=? and proSubCate=? order by proDate desc) product WHERE ROWNUM <= 5) WHERE RNUM > 0 ORDER BY proDate DESC";
+		String getProductListSQL_Cate = "SELECT * FROM (select ROWNUM AS RNUM, product.* FROM(select * from product where proCate=? order by proDate desc) product WHERE ROWNUM <= 20) WHERE RNUM > 0 ORDER BY proDate DESC";
+		String getProductListSQL_SubCate = "SELECT * FROM (select ROWNUM AS RNUM, product.* FROM(select * from product where proCate=? and proSubCate=? order by proDate desc) product WHERE ROWNUM <= 20) WHERE RNUM > 0 ORDER BY proDate DESC";
 		String getProductList_ALL = "select * from product order by proDate desc";
-		String getProductList_ProName = "SELECT * FROM (select ROWNUM AS RNUM, product.* FROM(select * from product where proName like '%'||?||'%' order by proDate desc) product WHERE ROWNUM <= 5) WHERE RNUM > 0 ORDER BY proDate DESC";
+		//String getProductList_ProName = "SELECT * FROM (select ROWNUM AS RNUM, product.* FROM(select * from product where proName like '%'||?||'%' order by proDate desc) product WHERE ROWNUM <= 20) WHERE RNUM > 0 ORDER BY proDate DESC";
 		;
 
 		System.out.println("vo확인" + vo);
 		System.out.println("get Condtion : " + vo.getCondition());
 
-		if (vo.getKeyword() != null) { // 상품 정렬, 검색 시
+		if (vo.getCondition() != null || vo.getKeyword() != null) { // 상품 정렬, 검색 시
 			System.out.println("vo.getKeyword 이 null아닐때");
 			System.out.println("condition & keyword " + vo.getCondition() + " : " + vo.getKeyword());
 			Object[] args = { vo.getKeyword() };
