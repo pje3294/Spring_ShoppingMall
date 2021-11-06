@@ -6,7 +6,7 @@ public class OrdHistoryVO {
 	/*
 	 * create table ordHistory( ordCode number(20) primary key, -- 주문번호 proCode
 	 * number(20) not null, -- 상품번호 (FK) id varchar2(15) not null, -- 아이디 (FK)
-	 * amount number(5) not null, -- 수량 payment number(20) not null, -- 총 주문가격 pCode
+	 * amount number(5) not null, -- 수량 total number(20) not null, -- 총 주문가격 pCode
 	 * varchar2(6) not null, -- 배송지(우편번호) addr varchar2(100) not null, -- 배송지 주소
 	 * etcAddr varchar2(100) not null, -- 배송지(상새주소) recName varchar2(20) not null,
 	 * -- 수취인 이름 recPhone varchar2(11) not null, -- 수취인 전화번호 orderDate date default
@@ -21,9 +21,8 @@ public class OrdHistoryVO {
 	private String proName;
 	private String id;
 	private int amount;
-	private int payment;
+	private int payment; // 배송비 + 상품가격
 	private String pCode;
-	private String proImg;
 	private String addr;
 	private String etcAddr;
 	private String recName;
@@ -31,7 +30,10 @@ public class OrdHistoryVO {
 	private Date orderDate;
 	private String memo;
 	private String revYN;
+	private String proImg; // 실제 저장은 안되는 변수 장바구니 위해서
 	private int proPrice; // 실제 저장은 안되는 변수 장바구니 위해서
+	private int proFee; // 실제 저장은 안되는 변수 장바구니 위해서
+	private int total; // 실제 저장은 안되는 변수 장바구니 위해서
 
 	public int getOrdCode() {
 		return ordCode;
@@ -51,22 +53,6 @@ public class OrdHistoryVO {
 
 	public String getProName() {
 		return proName;
-	}
-
-	public int getProPrice() {
-		return proPrice;
-	}
-
-	public void setProPrice(int proPrice) {
-		this.proPrice = proPrice;
-	}
-
-	public String getProImg() {
-		return proImg;
-	}
-
-	public void setProImg(String proImg) {
-		this.proImg = proImg;
 	}
 
 	public void setProName(String proName) {
@@ -161,12 +147,45 @@ public class OrdHistoryVO {
 		this.revYN = revYN;
 	}
 
+	public String getProImg() {
+		return proImg;
+	}
+
+	public void setProImg(String proImg) {
+		this.proImg = proImg;
+	}
+
+	public int getProPrice() {
+		return proPrice;
+	}
+
+	public void setProPrice(int proPrice) {
+		this.proPrice = proPrice;
+	}
+
+	public int getProFee() {
+		return proFee;
+	}
+
+	public void setProFee(int proFee) {
+		this.proFee = proFee;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
 	@Override
 	public String toString() {
 		return "OrdHistoryVO [ordCode=" + ordCode + ", proCode=" + proCode + ", proName=" + proName + ", id=" + id
-				+ ", amount=" + amount + ", payment=" + payment + ", pCode=" + pCode + ", proImg=" + proImg + ", addr="
-				+ addr + ", etcAddr=" + etcAddr + ", recName=" + recName + ", recPhone=" + recPhone + ", orderDate="
-				+ orderDate + ", memo=" + memo + ", revYN=" + revYN + ", proPrice=" + proPrice + "]";
+				+ ", amount=" + amount + ", payment=" + payment + ", pCode=" + pCode + ", addr=" + addr + ", etcAddr="
+				+ etcAddr + ", recName=" + recName + ", recPhone=" + recPhone + ", orderDate=" + orderDate + ", memo="
+				+ memo + ", revYN=" + revYN + ", proImg=" + proImg + ", proPrice=" + proPrice + ", proFee=" + proFee
+				+ ", total=" + total + "]";
 	}
 
 }

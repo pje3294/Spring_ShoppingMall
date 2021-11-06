@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 class OrdHistoryMapper implements RowMapper<OrdHistoryVO> {
 
@@ -37,7 +38,7 @@ class OrdHistoryMapper implements RowMapper<OrdHistoryVO> {
 public class OrdHistoryDAO {
 
 	private final String insertSQL = "insert into ordhistory (ordCode, proCode, proName, id, amount, payment, pCode, addr, "
-			+ "etcAddr, recName, recPhone, memo, proImg) values((select nvl(max(ordCode),0)+1 from ordhistory),?,?,?,?,?,?,?,?,?,?,?,?))";
+			+ "etcAddr, recName, recPhone, memo) values((select nvl(max(ordCode),0)+1 from ordhistory),?,?,?,?,?,?,?,?,?,?,?)";
 
 	/*
 	 * private final String updateSQL =
@@ -48,6 +49,8 @@ public class OrdHistoryDAO {
 	 */
 
 	private final String deleteSQL = "delete from ordhistory where ordCode=?";
+	
+	private final String updateSQL = "update ordhistory set  pCode=?, addr=?,etcAddr=?, recName=?, recPhone=?, memo=? where ordCode=?";
 
 	private final String getOrdSQL = "select * from ordhistory where ordCode=?";
 
@@ -59,13 +62,23 @@ public class OrdHistoryDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	// 장바구니 결제 후 -> 주문 내역에 추가됨
+	
+	@Transactional
 	public void insertOrdHistory(OrdHistoryVO vo) {
 		System.out.println("OrdHistoryDAO-insertOrdHistory 실행");
 		System.out.println("vo 확인: " + vo);
 
 		Object[] args = { vo.getProCode(),vo.getProName(), vo.getId(), vo.getAmount(), vo.getPayment(), vo.getpCode(), vo.getAddr(),
-				vo.getEtcAddr(), vo.getRecName(), vo.getRecName(), vo.getMemo(),vo.getProImg() };
+				vo.getEtcAddr(), vo.getRecName(), vo.getRecPhone(), vo.getMemo()};
 		jdbcTemplate.update(insertSQL, args);
+		
+		System.out.println("구매내역 추가");
+		String downStock = "update product set proStock= proStock - ? where proCode=?";
+		
+		Object[] arg = {vo.getAmount(), vo.getProCode()};
+		jdbcTemplate.update(downStock, arg);
+
+		System.out.println("구매되서 재고 감소 ");
 	}
 
 	/////////////////////////////////////////////////////////////////////
@@ -77,7 +90,18 @@ public class OrdHistoryDAO {
 	}
 
 	/////////////////////////////////////////////////////////////////////
+	// 주소지 변경 
+	public void updateOrdHistroy(OrdHistoryVO vo) {
+		System.out.println("OrdHistoryDAO-updateOrdHistroy 실행");
+		// "update ordhistory set  pCode=?, addr=?,etcAddr=?, recName=?, recPhone=?, memo=? where ordCode=?";
+		Object[] args = {vo.getpCode(), vo.getAddr(), vo.getEtcAddr(),vo.getRecName(), vo.getRecPhone(),vo.getMemo(), vo.getOrdCode()};
+		jdbcTemplate.update(updateSQL, args);
+	}
 	
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////
 	// 구내내역 상세보기 
 	public OrdHistoryVO getOrdHistory(OrdHistoryVO vo) {
 		System.out.println("OrdHistoryDAO-getOrdHistory 실행");
@@ -88,7 +112,7 @@ public class OrdHistoryDAO {
 	/////////////////////////////////////////////////////////////////////
 	// 나의 구매내역 (전쳬)
 	public List<OrdHistoryVO> getMyOrdList(OrdHistoryVO vo){
-		System.out.println("OrdHistoryDAO-getOrdHistory 실행");
+		System.out.println("OrdHistoryDAO-getMyOrdList 실행");
 		Object[] args = {vo.getId()};
 		return jdbcTemplate.query(getMyOrdSQL, args, new OrdHistoryMapper());
 	}
@@ -99,6 +123,16 @@ public class OrdHistoryDAO {
 		System.out.println("OrdHistoryDAO-getOrdHistoryList 실행");
 		return jdbcTemplate.query(getAllOrdSQL, new OrdHistoryMapper());
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

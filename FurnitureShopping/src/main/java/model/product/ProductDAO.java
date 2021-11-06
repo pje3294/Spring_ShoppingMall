@@ -171,7 +171,7 @@ public class ProductDAO {
 
 		} else {
 			System.out.println("컨디션이 널일때");
-			if (vo.getProCate().equals("chair")) {
+			if (vo.getProCate().equals("의자")) {
 				if (vo.getProSubCate() != null) { // 의자 하위 카테고리
 					System.out.println("의자만");
 					System.out.println("vo.getProCate확인: " + vo.getProCate());
@@ -185,11 +185,11 @@ public class ProductDAO {
 				Object[] args = { vo.getProCate() };
 				return jdbcTemplate.query(getProductListSQL_Cate, args, new ProductMapper());
 
-			} else if (vo.getProCate().equals("stool")) {
+			} else if (vo.getProCate().equals("스툴")) {
 				System.out.println("스툴만");
 				Object[] args = { vo.getProCate() };
 				return jdbcTemplate.query(getProductListSQL_Cate, args, new ProductMapper());
-			} else if (vo.getProCate().equals("sofa")) {
+			} else if (vo.getProCate().equals("소파")) {
 				if (vo.getProSubCate() != null) { 
 				System.out.println("소파만");
 				System.out.println("vo.getProCate확인: " + vo.getProCate());

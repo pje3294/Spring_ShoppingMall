@@ -37,4 +37,10 @@ public class OrdHistoryServiceImpl implements OrdHistoryService{
 		return ordHistoryDAO.getOrdHistoryList(vo);
 	}
 
+	@Override
+	public void updateOrdHistroy(OrdHistoryVO vo) {
+		ordHistoryDAO.updateOrdHistroy(vo);
+		
+	}
+
 }

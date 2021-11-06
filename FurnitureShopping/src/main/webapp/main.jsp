@@ -124,7 +124,7 @@
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 										<a class="dropdown-item" href="logout.do">로그아웃</a> 
-										<a class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
+										<a class="dropdown-item" href="myPage.jsp?id=${user.id}">마이페이지</a>
 									</div>
 								</div>
 
@@ -292,7 +292,7 @@
 					<div class="single_feature_post_text">
 						<p>Premium Quality</p>
 						<h3>의자</h3>
-						<a href="main.do?proCate=chair" class="feature_btn">EXPLORE NOW <i
+						<a href="main.do?proCate=의자" class="feature_btn">EXPLORE NOW <i
 							class="fas fa-play"></i></a> <img src="img/feature/feature_1.png"
 							alt="">
 					</div>
@@ -301,7 +301,7 @@
 					<div class="single_feature_post_text">
 						<p>Premium Quality</p>
 						<h3>스툴</h3>
-						<a href="main.do?proCate=stool" class="feature_btn">EXPLORE NOW <i
+						<a href="main.do?proCate=스툴" class="feature_btn">EXPLORE NOW <i
 							class="fas fa-play"></i></a> <img src="img/feature/feature_2.png"
 							alt="">
 					</div>
@@ -319,7 +319,7 @@
 					<div class="single_feature_post_text">
 						<p>Premium Quality</p>
 						<h3>소파</h3>
-						<a href="main.do?proCate=sofa" class="feature_btn">EXPLORE NOW <i
+						<a href="main.do?proCate=소파" class="feature_btn">EXPLORE NOW <i
 							class="fas fa-play"></i></a> <img src="img/feature/feature_4.png"
 							alt="">
 					</div>

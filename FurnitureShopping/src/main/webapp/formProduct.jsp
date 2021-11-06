@@ -511,7 +511,7 @@
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
-		// 탈퇴 버튼
+		// 상품 삭제 버튼
 		function quit() {
 			result = confirm("상품 삭제하시겠습니까?");
 			if (result == true) {

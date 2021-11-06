@@ -27,6 +27,8 @@
 <link rel="stylesheet" href="css/magnific-popup.css">
 <!-- style CSS -->
 <link rel="stylesheet" href="css/style.css">
+
+
 </head>
 
 <body>
@@ -129,7 +131,8 @@
 								<div class="dropdown cart">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
 										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"><span class="cartNew">${cartCnt}</span></i>
+										aria-expanded="false"> <i class="fas fa-cart-plus"><span
+											class="cartNew">${cartCnt}</span></i>
 									</a>
 								</div>
 
@@ -160,7 +163,8 @@
 								<div class="dropdown cart">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
 										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"><span class="cartNew">${cartCnt}</span></i>
+										aria-expanded="false"> <i class="fas fa-cart-plus"><span
+											class="cartNew">${cartCnt}</span></i>
 									</a>
 								</div>
 
@@ -244,33 +248,48 @@
 								href="main.do?proCate=${data.proCate}&proSubCate=${data.proSubCate}">
 									<span>Category</span>: ${data.proCate} > ${data.proSubCate}
 							</a></li>
-							<li><a href="#"> <span>Availibility</span> : In Stock
+							<li><a href="#"> <span>Availibility</span> :
+									${data.proStock}개
+							</a></li>
+							<li><a href="#"> <span>delivery fee</span> :
+									${data.proFee}원
 							</a></li>
 						</ul>
-						<p>First replenish living. Creepeth image image. Creeping
-							can't, won't called. Two fruitful let days signs sea together all
-							land fly subdue</p>
-							
-							
-					<!--========================== 장바구니 추가하기  ==========================  -->		
-							<form action="addCart.do" method="post" name="addCart">
-							<input type="hidden" name="id" value="${user.id}">
-							<input type="hidden" name="proCode" value="${data.proCode}">
-							<input type="hidden" name="proImg" value="${data.proImg}">
-							<input type="hidden" name="proName" value="${data.proName}">
-							<input type="hidden" name="proPrice" value="${data.proPrice}">
-							
-						<div class="card_area d-flex justify-content-between align-items-center">
+						<br>
+						<!-- =============  현재 상품 카톡 링크로 공유하기  ================== -->
+						<div>
+						<a id="kakao-link-btn" href="javascript:sendLink()">
+								<span style="font-size: 15px;">kakao&nbsp;<i class="ti-share"></i></span>
+								</a>
+						</div>
+						<!-- <a id="kakao-link-btn" href="javascript:sendLink()">카카오톡 공유하기
+							버튼 </a> <br> <br> <br> <br> -->
+
+						<!--========================== 장바구니 추가하기  ==========================  -->
+						<form action="addCart.do" method="post" name="addCart">
+							<input type="hidden" name="id" value="${user.id}"> <input
+								type="hidden" name="proCode" value="${data.proCode}"> <input
+								type="hidden" name="proImg" value="${data.proImg}"> <input
+								type="hidden" name="proName" value="${data.proName}"> <input
+								type="hidden" name="proPrice" value="${data.proPrice}">
+							<input type="hidden" name="proFee" value="${data.proFee}">
+
+							<div
+								class="card_area d-flex justify-content-between align-items-center">
 								<div class="product_count">
-									<span class="inumber-decrement"> <i class="ti-minus"></i></span>
-									<input class="input-number" type="number" value="1" min="0"
-										max="10" name="amount"> <span class="number-increment"> <i
-										class="ti-plus"></i></span>
+
+									<input class="input-number" type="number" value="1" min="1"
+										max="${data.proStock}" name="amount">
+										
+										
 								</div>
+								
 								<button type="submit" class="btn_3">add to cart</button>
 								<!-- <a href="#" class="like_us"></a> -->
-						</div>
-							</form>
+							</div>
+						</form>
+						
+						
 					</div>
 				</div>
 			</div>
@@ -282,9 +301,9 @@
 	<section class="product_description_area">
 		<div class="container">
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
-				<li class="nav-item"><a class="nav-link" id="home-tab"
+				<!-- <li class="nav-item"><a class="nav-link" id="home-tab"
 					data-toggle="tab" href="#home" role="tab" aria-controls="home"
-					aria-selected="true">Description</a></li>
+					aria-selected="true">Description</a></li> -->
 				<li class="nav-item"><a class="nav-link" id="profile-tab"
 					data-toggle="tab" href="#profile" role="tab"
 					aria-controls="profile" aria-selected="false">Specification</a></li>
@@ -295,7 +314,7 @@
 			<div class="tab-content" id="myTabContent">
 
 				<!-- ============  descrption section =============  -->
-				<div class="tab-pane fade" id="home" role="tabpanel"
+				<!-- <div class="tab-pane fade" id="home" role="tabpanel"
 					aria-labelledby="home-tab">
 					<p>Beryl Cook is one of Britain’s most talented and amusing
 						artists .Beryl’s pictures feature women of all shapes and sizes
@@ -324,7 +343,7 @@
 						a streamlined plan of cooking that is more efficient for one
 						person creating less</p>
 				</div>
-
+ -->
 
 				<!--   ===============  상품 info section   ===================-->
 				<div class="tab-pane fade" id="profile" role="tabpanel"
@@ -333,68 +352,93 @@
 						<table class="table">
 							<tr>
 								<td>
-									<h5>Width</h5>
+									<h5>상품등록일</h5>
 								</td>
 								<td>
-									<h5>128mm</h5>
+									<h5>${data.proDate}</h5>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<h5>Height</h5>
+									<h5>KC인증</h5>
 								</td>
 								<td>
-									<h5>508mm</h5>
+									<h5>${data.proKC}</h5>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<h5>Depth</h5>
+									<h5>색상</h5>
 								</td>
 								<td>
-									<h5>85mm</h5>
+									<h5>${data.proColor}</h5>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<h5>Weight</h5>
+									<h5>구성품</h5>
 								</td>
 								<td>
-									<h5>52gm</h5>
+									<h5>${data.proCmpt}</h5>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<h5>Quality checking</h5>
+									<h5>주요소재</h5>
 								</td>
 								<td>
-									<h5>yes</h5>
+									<h5>${data.proMtrl}</h5>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<h5>Freshness Duration</h5>
+									<h5>제조자(수입자)</h5>
 								</td>
 								<td>
-									<h5>03days</h5>
+									<h5>${data.proMnfct}</h5>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<h5>When packeting</h5>
+									<h5>제조국</h5>
 								</td>
 								<td>
-									<h5>Without touch of hand</h5>
+									<h5>${data.proNation}</h5>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<h5>Each Box contains</h5>
+									<h5>크기</h5>
 								</td>
 								<td>
-									<h5>60pcs</h5>
+									<h5>${data.proSize}</h5>
 								</td>
 							</tr>
+							<tr>
+								<td>
+									<h5>배송,설치비용</h5>
+								</td>
+								<td>
+									<h5>${data.proFee}</h5>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h5>품질보증기준</h5>
+								</td>
+								<td>
+									<h5>${data.proCerti}</h5>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h5>A/S 책임자와 전화번호</h5>
+								</td>
+								<td>
+									<h5>${data.proAS}</h5>
+								</td>
+							</tr>
+
 							</tbody>
 						</table>
 					</div>
@@ -409,8 +453,7 @@
 								<div class="col-6">
 									<div class="box_total">
 										<h5>Overall</h5>
-										<h4>4.0</h4>
-										<h6>(03 Reviews)</h6>
+										<h4>${data.proRating}</h4>
 									</div>
 								</div>
 								<div class="col-6">
@@ -495,56 +538,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-6">
-							<div class="review_box">
-								<h4>Add a Review</h4>
-								<p>Your Rating:</p>
-								<ul class="list">
-									<li><a href="#"> <i class="fa fa-star"></i>
-									</a></li>
-									<li><a href="#"> <i class="fa fa-star"></i>
-									</a></li>
-									<li><a href="#"> <i class="fa fa-star"></i>
-									</a></li>
-									<li><a href="#"> <i class="fa fa-star"></i>
-									</a></li>
-									<li><a href="#"> <i class="fa fa-star"></i>
-									</a></li>
-								</ul>
-								<p>Outstanding</p>
-								<form class="row contact_form" action="contact_process.php"
-									method="post" novalidate="novalidate">
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" name="name"
-												placeholder="Your Full name" />
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="email" class="form-control" name="email"
-												placeholder="Email Address" />
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" name="number"
-												placeholder="Phone Number" />
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea class="form-control" name="message" rows="1"
-												placeholder="Review"></textarea>
-										</div>
-									</div>
-									<div class="col-md-12 text-right">
-										<button type="submit" value="submit" class="btn_3">
-											Submit Now</button>
-									</div>
-								</form>
-							</div>
-						</div>
+
 					</div>
 				</div>
 			</div>
@@ -747,6 +741,43 @@
 	<!-- custom js -->
 	<script src="js/theme.js"></script>
 	<script src="js/custom.js"></script>
+
+	<!-- 카카오링크 API 설정 -->
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+
+	<script type='text/javascript'>
+	
+
+	
+		//카카오링크 API
+	//<![CDATA[
+		// // 사용할 앱의 JavaScript 키를 설정해 주세요.
+		Kakao.init('사용할 앱의 JavaScript 키');
+		// // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
+		Kakao.Link.createDefaultButton({
+			container : '#kakao-link-btn',
+			objectType : 'feed',
+			content : {
+				title : $('input[name=proName]').val(),
+				description : $('input[name=proPrice]').val()+'원',
+				imageUrl :'https://t1.kakaocdn.net/kakaocorp/kakaocorp/admin/news/e7fa9044017c00001.png',
+				link : {
+					mobileWebUrl : window.location.href,
+					webUrl : window.location.href
+				}
+			},
+
+			buttons : [ {
+				title : '웹으로 상품 보기',
+				link : {
+					webUrl : window.location.href
+				}
+			} ]
+		});
+		//]]>
+	</script>
+
 </body>
 
 </html>

@@ -40,7 +40,7 @@
 			<div class="row align-items-center">
 				<div class="col-lg-12">
 					<nav class="navbar navbar-expand-lg navbar-light">
-						<a class="navbar-brand" href="index.jsp"> <img
+						<a class="navbar-brand" href="index.html"> <img
 							src="img/logo.png" alt="logo">
 						</a>
 						<button class="navbar-toggler" type="button"
@@ -90,99 +90,27 @@
 									href="contact.html">Contact</a></li>
 							</ul>
 						</div>
-						<!--================================================================================  -->
-
-						<!--  ====================== 상단바 아이콘  ====================== -->
-						<!--로그인xxxxx -->
-						<c:if test="${empty user && empty manager}">
-							<div class="hearer_icon d-flex">
-								<div class="dropdown">
-									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
-										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="ti-user"></i>
-									</a>
-									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="login.jsp">로그인</a> <a
-											class="dropdown-item" href="join.jsp">회원가입</a>
-
-									</div>
-								</div>
-
-								<!-- <a id="search_1" href="javascript:void(0)"><i
-									class="ti-search"></i></a> -->
-
-							</div>
-
-
-						</c:if>
-
-						<!-- ======= 로그인 시 마이페이지 이동  ========-->
-						<c:if test="${!empty user}">
-							<div class="hearer_icon d-flex">
-								<div class="dropdown">
-									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
-										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="ti-user"></i>
-									</a>
-									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
-											class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
-									</div>
-								</div>
-
-								<div class="dropdown cart">
-									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
-										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
-									</a>
-								</div>
-
-							<!-- 	<a id="search_1" href="javascript:void(0)"> <i
-									class="ti-search"></i>
+						<div class="hearer_icon d-flex">
+							<a id="search_1" href="javascript:void(0)"><i
+								class="ti-search"></i></a> <a href=""><i class="ti-heart"></i></a>
+							<div class="dropdown cart">
+								<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+									role="button" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false"> <i class="fas fa-cart-plus"></i>
 								</a>
- -->
+								<!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div class="single_product">
 
-
-							</div>
-						</c:if>
-
-
-						<!-- ======= 관리자 페이지 이동  ========-->
-						<c:if test="${!empty manager}">
-							<div class="hearer_icon d-flex">
-								<div class="dropdown">
-									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
-										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="ti-user"></i>
-									</a>
-									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
-											class="dropdown-item" href="myPage.do?user=${manager.id}">관리자페이지</a>
-									</div>
-								</div>
-
-								<div class="dropdown cart">
-									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
-										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
-									</a>
-								</div>
-
-								<!-- <a id="search_1" href="javascript:void(0)"> <i
-									class="ti-search"></i>
-								</a> -->
-
-
+                                </div>
+                            </div> -->
 
 							</div>
-						</c:if>
-						<!--================================================================================  -->
-
+						</div>
 					</nav>
 				</div>
 			</div>
 		</div>
-		<!-- <div class="search_input" id="search_input_box">
+		<div class="search_input" id="search_input_box">
 			<div class="container ">
 				<form class="d-flex justify-content-between search-inner">
 					<input type="text" class="form-control" id="search_input"
@@ -191,7 +119,7 @@
 					<span class="ti-close" id="close_search" title="Close Search"></span>
 				</form>
 			</div>
-		</div> -->
+		</div>
 	</header>
 	<!-- Header part end-->
 
@@ -203,7 +131,7 @@
 				<div class="col-lg-8">
 					<div class="breadcrumb_iner">
 						<div class="breadcrumb_iner_item">
-							<h2>Product insert/update/delete</h2>
+							<h2>Producta Checkout</h2>
 							<p>
 								Home <span>-</span> Shop Single
 							</p>
@@ -215,155 +143,81 @@
 	</section>
 	<!-- breadcrumb start-->
 
-	<!--================================================-->
+	<!--================ 주문/ 결제 부분! =================-->
 	<section class="checkout_area padding_top">
 		<div class="container">
+
 			<div class="billing_details">
-				<div class="row">
-					<div class="col-lg-8">
-						<h3>상품정보</h3>
+				<form class="row contact_form" action="updateOrder.do" method="post"
+					novalidate="novalidate"  name="updateOrder">
+					
+					<div class="row">
+						<div class="col-lg-8">
 
-						<!-- ---------------------------------- -->
-						<!-- 새상품 등록 시  -->
+							<div class="col-md-4 form-group p_star">
+								<p>주문번호</p>
+								<input type="number" class="form-control" value="${myOrder.ordCode}"
+									name="ordCode" readonly="readonly" />
 
-						<form class="row contact_form" action="insertProduct.do"
-							method="post" name="insertProduct" enctype="multipart/form-data">
-							
-							<div class="col-md-8 form-group p_star">
-								<p>상품명</p>
-								<input type="text" class="form-control" id="proName"
-									name="proName" maxlength="10" required />
 							</div>
-							<%-- <div class="col-md-6 form-group p_star">
-									<p>카테고리</p>
-									<select name="proCate">
-										<c:forEach var="op" items="${category}">
-											<option value="${op.value}">${op.key}</option>
-										</c:forEach>
-									</select>
-								</div> --%>
-							<div class="col-md-3 form-group p_star">
-								<p>카테고리</p>
-								<select name="proCate">
-									<%-- 	안됨,,,,,,,,,,,, 
-									<c:forEach var="op" items="${category}">
-										<option value="${op.value}">${op.key}</option>
-									</c:forEach> --%>
-									<option value='' selected>선택</option>
-									<option value="chair">의자</option>
-									<option value="stool">스툴</option>
-									<option value="sofa">소파</option>
-								</select>
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>하위 카테고리</p>
-								<select name="proSubCate">
-									<optgroup label="chair">
-										<option value="interior">인테리어 의자</option>
-										<option value="sitting">좌식 의자</option>
-									</optgroup>
-									<optgroup label="stool">
-										<option value="">-</option>
-									</optgroup>
-									<optgroup label="sofa">
-										<option value="normal">일반 소파</option>
-										<option value="beanbag">빈백 소파</option>
-									</optgroup>
-								</select>
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>상품가격</p>
-								<input type="number" class="form-control" id="proPrice"
-									name="proPrice" required />
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>상품재고</p>
-								<input type="number" class="form-control" id="proStock"
-									name="proStock" required />
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>KC인증</p>
-								<input type="text" class="form-control" id="proKC" name="proKC"
-									required />
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>색상</p>
-								<input type="text" class="form-control" id="proColor"
-									name="proColor" required />
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>구성품</p>
-								<input type="text" class="form-control" id="proCmpt"
-									name="proCmpt" required />
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>주요소재</p>
-								<input type="text" class="form-control" id="proMtrl"
-									name="proMtrl" required />
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>제조자(수입자)</p>
-								<input type="text" class="form-control" id="proMnfct"
-									name="proMnfct" required />
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>제조국</p>
-								<input type="text" class="form-control" id="proNation"
-									name="proNation" required />
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>크기</p>
-								<input type="text" class="form-control" id="proSize"
-									name="proSize" required />
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>배송,설치비용</p>
-								<input type="number" class="form-control" id="proFee"
-									name="proFee" required />
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>품질보증기준</p>
-								<input type="text" class="form-control" id="proCerti"
-									name="proCerti" required />
-							</div>
-							<div class="col-md-8 form-group p_star">
-								<p>A/S 책임자와 전화번호</p>
-								<input type="text" class="form-control" id="proAS" name="proAS"
-									required />
+							<div class="col-md-6 form-group p_star">
+								<p>주문자</p>
+								<input type="text" class="form-control" value="${user.id}"
+									name="id" readonly="readonly" />
+
 							</div>
 
 
-							<!-- ============= 상품사진 사진 ==============  -->
-							<div class="col-md-8 form-group p_star">
-								<p>사진추가</p>
-								<input type="file" class="form-control" id="mImg"
-									name="fileUpload" /> <img src="${data.proImg}"
-									alt="productIMG" class="profilImg">
-							</div> 
-
-
-							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="btn_3">상품추가하기</button>
+							<div class="col-lg-12">
+								<h3>Shipping Details</h3>
 							</div>
-						</form>
+							<!-- 주소 API  -->
+							<div class="col-md-8 form-group p_star">
+								<input type="text" class="form-control" id="pCode" name="pCode"
+									value="${myOrder.pCode}" required />
+							</div>
+							<div class="col-md-4 form-group p_star">
+								<a href="#" class="genric-btn default-border circle"
+									onclick="searchAddr();">우편번호 찾기</a>
+							</div>
 
-						<!-- ---------------------------------- -->
+							<div class="col-md-12 form-group p_star">
+								<input type="text" class="form-control" id="addr" name="addr"
+									value="${myOrder.addr}" required />
+							</div>
+							<div class="col-md-12 form-group p_star">
+								<input type="text" class="form-control" id="etcAddr"
+									name="etcAddr" value="${myOrder.etcAddr}" required />
+							</div>
+							<div class="col-md-6 form-group p_star">
+								<a>수취인</a> <input type="text" class="form-control" id="recName"
+									name="recName" value="${myOrder.recName}" required />
+							</div>
 
+							<div class="col-md-8 form-group p_star">
+								<a>전화번호</a> <input type="text" class="form-control" id="text"
+									name="recPhone" value="${myOrder.recPhone}" required />
+							</div>
 
+							<div class="col-md-12 form-group p_star">
+								<a>배송메모</a> <input type="text" class="form-control" id="text"
+									name="memo" value="${myOrder.memo}" />
+							</div>
+
+						</div>
 
 					</div>
-				</div>
+
+
+					<div class="col-md-12 form-group">
+						<button type="submit" value="submit" class="btn_3">배송정보 수정하기</button>
+						<button type="button" onclick="quit()" class="btn_3">주문취소하기</button>
+					</div>
+
+				</form>
 			</div>
-
 		</div>
-
 	</section>
-
-
-
-
-
-
 	<!--================End Checkout Area =================-->
 
 	<!--::footer_part start::-->
@@ -504,72 +358,45 @@
 	<script src="js/price_rangs.js"></script>
 	<!-- custom js -->
 	<script src="js/custom.js"></script>
-
-	<!--===================================== 자바 스크립트 =====================================-->
 	<!--  다음 주소 API -->
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
+		function searchAddr() {
+			new daum.Postcode(
+					{
+						oncomplete : function(data) {
+							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+
+							if (data.userSelectedType === 'R') { // 도로명 주소 선택 시 
+								document.querySelector("#pCode").value = data.zonecode;
+								document.querySelector("#addr").value = data.roadAddress;
+								document.querySelector("#etcAddr").value = data.buildingName;
+
+							} else { //지번 주소 선택시
+								document.querySelector("#pCode").value = data.zonecode;
+								document.querySelector("#addr").value = data.jibunAddress;
+								document.querySelector("#etcAddr").value = data.buildingName;
+
+							}
+
+						}
+					}).open();
+		}
+		
+		
 		// 탈퇴 버튼
 		function quit() {
-			result = confirm("상품 삭제하시겠습니까?");
+			result = confirm("주문을 취소하시겠습니까?");
 			if (result == true) {
 
-				document.updateProduct.action = "deleteProduct.do";
-				document.updateProduct.submit();
+				document.updateOrder.action = "deleteOrder.do";
+				document.updateOrder.submit();
 			} else {
 				return;
 			}
 		}
-
-		// 파일 미리보기
-		document.addEventListener('DOMContentLoaded', function() {
-			//이미지 객체 타입으로 이미지 확장자 밸리데이션
-			var validateType = function(img) {
-				return ([ 'image/jpeg', 'image/jpg', 'image/png' ]
-						.indexOf(img.type) > -1);
-			}
-
-			var validateName = function(fname) {
-				let extensions = [ 'jpeg', 'jpg', 'png' ];
-				let fparts = fname.split('.');
-				let fext = '';
-
-				if (fparts.length > 1) {
-					fext = fparts[fparts.length - 1];
-				}
-
-				let validated = false;
-
-				if (fext != '') {
-					extensions.forEach(function(ext) {
-						if (ext == fext) {
-							validated = true;
-						}
-					});
-				}
-
-				return validated;
-			}
-
-			// 파일 선택 필드에 이벤트 리스너 등록
-			document.getElementById('mImg').addEventListener('change',
-					function(e) {
-						let elem = e.target;
-						if (validateType(elem.files[0])) {
-							let preview = document.querySelector('.profilImg');
-							preview.src = URL.createObjectURL(elem.files[0]); //파일 객체에서 이미지 데이터 가져옴.
-							preview.onload = function() {
-								URL.revokeObjectURL(preview.src); //URL 객체 해제
-							}
-						} else {
-							console.log('이미지 파일이 아닙니다.');
-						}
-					});
-		});
 	</script>
-
-
 </body>
 
 </html>

@@ -230,27 +230,26 @@
 							<!-- <div class="widgets_inner"> -->
 							<c:set var="proCate" value="${param.proCate}" />
 
-							<c:if test="${proCate eq 'chair'}">
+							<c:if test="${proCate eq '의자'}">
 								<div class="widgets_inner">
 									<ul class="list">
-										<li><a href="main.do?proCate=chair&proSubCate=interior">interior</a></li>
-										<li><a href="main.do?proCate=chair&proSubCate=sitting">sitting</a></li>
+										<li><a href="main.do?proCate=의자&proSubCate=인테리어">interior</a></li>
+										<li><a href="main.do?proCate=의자&proSubCate=좌식">sitting</a></li>
 									</ul>
 								</div>
 							</c:if>
-							<c:if test="${proCate eq 'stool'}">
+							<c:if test="${proCate eq '스툴'}">
 								<div class="widgets_inner">
 									<ul class="list">
-										<li><a href="main.do?proCate=stool&proSubCate=l">no
-												category</a></li>
+										<li><a href="main.do?proCate=스툴&proSubCate=스툴">stool</a></li>
 									</ul>
 								</div>
 							</c:if>
-							<c:if test="${proCate eq'sofa'}">
+							<c:if test="${proCate eq'소파'}">
 								<div class="widgets_inner">
 									<ul class="list">
-										<li><a href="main.do?proCate=sofa&proSubCate=normal">normal</a></li>
-										<li><a href="main.do?proCate=sofa&proSubCate=beanbag">beanbag</a></li>
+										<li><a href="main.do?proCate=소파&proSubCate=일반소파">normal</a></li>
+										<li><a href="main.do?proCate=소파&proSubCate=빈백소파">beanbag</a></li>
 									</ul>
 								</div>
 							</c:if>
@@ -341,12 +340,13 @@
 							<div class="col-lg-4 col-sm-6">
 								<form action="addCart.do?status=${status.index}" method="post"
 									name="addCart">
-									<input type="hidden" name="id" value="${user.id}"> <input
-										type="hidden" name="proCode" value="${v.proCode}"> <input
-										type="hidden" name="proImg" value="${v.proImg}"> <input
-										type="hidden" name="proName" value="${v.proName}"> <input
-										type="hidden" name="proPrice" value="${v.proPrice}"> <input
-										type="hidden" name="amount" type="number" value="1">
+									<input type="hidden" name="id" value="${user.id}"> 
+									<input type="hidden" name="proCode" value="${v.proCode}">
+									<input type="hidden" name="proImg" value="${v.proImg}"> 
+									<input type="hidden" name="proName" value="${v.proName}"> 
+									<input type="hidden" name="proPrice" value="${v.proPrice}"> 
+									<input type="hidden" name="proFee" value="${v.proFee}"> 
+									<input type="hidden" name="amount" type="number" value="1">
 
 									<div class="single_product_item">
 										<a href="productDetail.do?proCode=${v.proCode}"><img
@@ -355,7 +355,7 @@
 											<h4>${v.proName}</h4>
 											<h3>${v.proPrice}원</h3>
 											<%-- <a href="addCart.do?staus=${status.index}&amount=1&" class="add_cart">+ add to cart</a> --%>
-											<button type="submit" class="add_cart" onclick="login_check()" style="color: #ff3368; text-transform: uppercase; border: none; background-color: white;">+
+											<button type="submit" class="add_cart" style="color: #ff3368; text-transform: uppercase; border: none; background-color: white;">+
 												add to cart</button>
 										</div>
 									</div>
@@ -595,18 +595,7 @@
 	<!-- custom js -->
 	<script src="js/custom.js"></script>
 	
-	<script type="text/javascript">
-	function login_check(){ 
-        var user = '<%=(String)session.getAttribute("user")%>';
 
-         if(user=="null"){ 
-            swal("로그인이 필요한 항목입니다.","회원 가입 또는 로그인을 해주세요", "error"); 
-            history.go(-1)();
-         }
-
-   }   
-	
-	</script>
 	
 </body>
 

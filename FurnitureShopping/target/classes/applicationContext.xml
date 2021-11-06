@@ -3,29 +3,35 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 	<!-- 어노테이션 사용위한 설정 -->
 	<context:component-scan base-package="model"></context:component-scan>
 
 
-		
-	<!-- jdbcTemplate 사용위한 설정 -->	
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+
+	<!-- jdbcTemplate 사용위한 설정 -->
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource"></property>
-	</bean>	
-		
-		
-		<!-- Datasource 관련 설정! -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-      <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-      <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-      <property name="username" value="park" />
-      <property name="password" value="1234" />
-   </bean>
-		
+	</bean>
+
+
+	<!-- Datasource 관련 설정! -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName"
+			value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url"
+			value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="park" />
+		<property name="password" value="1234" />
+	</bean>
+
 
 	<!-- <bean class="com.park.app.common.LogAdvice" id="log" /> <bean class="com.park.app.common.AfterAdvice" 
 		id="aAdvice" /> <bean class="com.park.app.common.AfterReturningAdvice" id="arAdvice" 
@@ -33,24 +39,44 @@
 		<bean class="com.park.app.common.AroundAdvice" id="aroundAdvice" /> -->
 
 
+
+
+
+
+
+
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
 
-<!-- 	<aop:config>
-		<aop:pointcut expression="execution(* model.board2.*Impl.select*(..))" 
-			id="aPointcut" /> <aop:pointcut expression="execution(* model.board2.*Impl.*(..))" 
-			id="bPointcut" /> <aop:pointcut expression="execution(* model.Client.*Impl.select*(..))" 
-			id="cPointcut" />
+	<!-- <aop:config> <aop:pointcut expression="execution(* model.board2.*Impl.select*(..))" 
+		id="aPointcut" /> <aop:pointcut expression="execution(* model.board2.*Impl.*(..))" 
+		id="bPointcut" /> <aop:pointcut expression="execution(* model.Client.*Impl.select*(..))" 
+		id="cPointcut" /> <aop:aspect ref="atAdvice"> <aop:after-throwing method="printLog" 
+		pointcut-ref="bPointcut" throwing="excep" /> </aop:aspect> <aop:aspect ref="arAdvice"> 
+		<aop:after-returning method="printLog" pointcut-ref="aPointcut" /> </aop:aspect> 
+		<aop:aspect ref="atAdvice"> <aop:after-throwing method="printLog" pointcut-ref="bPointcut" 
+		/> </aop:aspect> <aop:aspect ref="aroundAdvice"> <aop:around method="printLog" 
+		pointcut-ref="bPointcut" /> </aop:aspect> </aop:config> -->
 
-		<aop:aspect ref="atAdvice"> <aop:after-throwing method="printLog" 
-			pointcut-ref="bPointcut" throwing="excep" /> </aop:aspect>
-		<aop:aspect ref="arAdvice"> <aop:after-returning method="printLog" 
-			pointcut-ref="aPointcut" /> </aop:aspect> <aop:aspect ref="atAdvice"> <aop:after-throwing 
-			method="printLog" pointcut-ref="bPointcut" /> </aop:aspect>
-		<aop:aspect ref="aroundAdvice">
-			<aop:around method="printLog" pointcut-ref="bPointcut" />
-		</aop:aspect>
-	</aop:config> -->
+
+	<!-- 트랜잭션 매니저 -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="insert*" rollback-for="Exception"/>
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* model..*DAO.*(..))" id="tPointcut" />
+
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="tPointcut" />
+	</aop:config>
 
 
 </beans>

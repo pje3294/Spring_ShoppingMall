@@ -58,6 +58,9 @@ public class MemberController {
 		int cartCnt =0;
 		session.setAttribute("cartCnt", cartCnt);
 		
+		List<OrdHistoryVO> ordHistory = new ArrayList<OrdHistoryVO>();
+		session.setAttribute("ordHistory", ordHistory);
+
 		return "redirect:index.jsp";
 	}
 
@@ -129,7 +132,6 @@ public class MemberController {
 		memberService.updateMember(vo);
 
 		HttpSession session = request.getSession();
-		System.out.println("updateMember.do - vo»Æ¿Œ: " +vo);
 
 		if (vo.getAdmin().equals("Y")) {
 			
@@ -145,7 +147,7 @@ public class MemberController {
 
 	}
 
-	@RequestMapping("/myPage.do")
+/*	@RequestMapping("/myPage.do")
 	public String myPage(HttpSession session, MemberVO vo) {
 
 		String id = (String) session.getAttribute(vo.getId());
@@ -154,8 +156,12 @@ public class MemberController {
 		vo.setId(id);
 
 		memberService.getMember(vo);
+		
+		
+		
+		
 		return "myPage.jsp";
-	}
+	}*/
 
 	@RequestMapping("/deleteMember.do")
 	public String deleteMember(HttpServletRequest request, MemberVO vo) {

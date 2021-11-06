@@ -17,7 +17,8 @@
 <link rel="stylesheet" href="css/animate.css">
 <!-- owl carousel CSS -->
 <link rel="stylesheet" href="css/owl.carousel.min.css">
-<link rel="stylesheet" href="css/lightslider.min.css">
+<!-- nice select CSS -->
+<link rel="stylesheet" href="css/nice-select.css">
 <!-- font awesome CSS -->
 <link rel="stylesheet" href="css/all.css">
 <!-- flaticon CSS -->
@@ -25,10 +26,11 @@
 <link rel="stylesheet" href="css/themify-icons.css">
 <!-- font awesome CSS -->
 <link rel="stylesheet" href="css/magnific-popup.css">
+<!-- swiper CSS -->
+<link rel="stylesheet" href="css/slick.css">
+<link rel="stylesheet" href="css/price_rangs.css">
 <!-- style CSS -->
 <link rel="stylesheet" href="css/style.css">
-
-
 </head>
 
 <body>
@@ -131,8 +133,7 @@
 								<div class="dropdown cart">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
 										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"><span
-											class="cartNew">${cartCnt}</span></i>
+										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
 									</a>
 								</div>
 
@@ -163,13 +164,12 @@
 								<div class="dropdown cart">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
 										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"><span
-											class="cartNew">${cartCnt}</span></i>
+										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
 									</a>
 								</div>
 
-								<!-- <a id="search_1" href="javascript:void(0)"> 
-								<i class="ti-search"></i>
+								<!-- <a id="search_1" href="javascript:void(0)"> <i
+									class="ti-search"></i>
 								</a> -->
 
 
@@ -179,15 +179,17 @@
 						<!--================================================================================  -->
 
 
+
 					</nav>
 				</div>
 			</div>
 		</div>
-		<!-- <div class="search_input" id="search_input_box">
+		<!--  메인에서만 전체 상품명 검색 가능
+		<div class="search_input" id="search_input_box">
 			<div class="container ">
-				<form class="d-flex justify-content-between search-inner">
+				<form class="d-flex justify-content-between search-inner" action="productList.do" method="post">
 					<input type="text" class="form-control" id="search_input"
-						placeholder="Search Here">
+						placeholder="Search Here" name="keyword">
 					<button type="submit" class="btn"></button>
 					<span class="ti-close" id="close_search" title="Close Search"></span>
 				</form>
@@ -196,6 +198,7 @@
 	</header>
 	<!-- Header part end-->
 
+	<!--================Home Banner Area =================-->
 	<!-- breadcrumb start-->
 	<section class="breadcrumb breadcrumb_bg">
 		<div class="container">
@@ -203,10 +206,8 @@
 				<div class="col-lg-8">
 					<div class="breadcrumb_iner">
 						<div class="breadcrumb_iner_item">
-							<h2>마이페이지</h2>
-							<p>
-								Home <span>-</span> Shop Single
-							</p>
+							<h2>Order History</h2>
+							<p>[${user.id}]님이 구매하신 상품입니다.</p>
 						</div>
 					</div>
 				</div>
@@ -214,359 +215,48 @@
 		</div>
 	</section>
 	<!-- breadcrumb start-->
-	<!--================End Home Banner Area =================-->
 
-	<!-------------------------------------------------------------------  -->
-	<div class="product_image_area section_padding">
+	<!--================Category Product Area =================-->
+	<section class="cat_product_area section_padding">
 		<div class="container">
-			<!-- ============ 내 프로필 영역 (회원용) ============== -->
-			<div class="row s_product_inner justify-content-between">
-				<div class="col-lg-7 col-xl-7">
-					<div class="product_slider_img">
-						<div id="vertical">
-							<div data-thumb="img/product/single-product/product_1.png">
-								<c:if test="${!empty user}">
-									<img src="${user.profile}" alt="post">
-								</c:if>
-								<c:if test="${!empty manager}">
-									<img src="${manager.profile}" alt="post">
-								</c:if>
+			<div class="row">
+				<div class="col-lg-12">
+
+					<!-- ==============  구매내역  section ======================= -->
+
+					<div class="row align-items-center latest_product_inner">
+						<c:forEach var="v" items="${ordHistory}">
+							<div class="col-lg-4 col-sm-6">
+								
+									<div class="single_product_item">
+										
+										<div class="single_product_text">
+											<h4 style="color: #ff3368;"><a href="updateOrder.do?ordCode=${v.ordCode}" style="color: #ff3368">(주문번호: ${v.ordCode})</a>_${v.proName}</h4>
+											<p>결제금액 : ${v.payment}원</p>
+											<span>수량: ${v.amount}</span>
+											
+										</div>
+									</div>
 							</div>
-							<!-- C:\Users\박정은\git\Spring_ShoppingMall\FurnitureShopping\src\main\webapp\images\product\surface.jpg -->
-							<!--C:\\Users\\박정은\\git\\Spring_ShoppingMall\\FurnitureShopping\\src\\main\\webapp\\${data.proImg} -->
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-5 col-xl-4">
-					<div class="s_product_text">
-
-						<!-- ==============================         개인 정보       ======================================= -->
-						<c:if test="${!empty user}">
-							<h3 class="active" id="id">${user.id}</h3>
-							<%-- <input type="hidden" id="id">${user.id} --%>
-							<br>
-							<ul class="list">
-								<li><a class="active" href="join.jsp">내정보
-										수정/탈퇴&nbsp;&nbsp;<i class="ti-settings"></i>
-								</a></li>
-
-							</ul>
-							<p>
-								<i class="ti-user"></i>&nbsp;&nbsp;name: ${user.name}
-							</p>
-							<p>
-								<i class="ti-email"></i>&nbsp;&nbsp;email: ${user.email}
-							</p>
-							<p>
-								<i class="ti-mobile"></i>&nbsp;&nbsp;phone: ${user.phone}
-							</p>
-							<p>
-								<i class="ti-face-smile"></i>&nbsp;&nbsp;birth: ${user.birth}
-							</p>
-						</c:if>
-						<c:if test="${!empty manager}">
-							<h2>관리자 계정입니다.</h2>
-							<br>
-							<h3 class="active">[${manager.id}]님♥</h3>
-							<br>
-							<ul class="list">
-								<li><a class="active" href="join.jsp">내정보
-										수정/탈퇴&nbsp;&nbsp;<i class="ti-settings"></i>
-								</a></li>
-
-							</ul>
-							<p>
-								<a href="insertProduct.do" class="d-flex"> <span>새상품
-										추가하기</span>
-								</a>
-							</p>
-
-
+						</c:forEach>
+						<c:if test="${empty ordHistory}">
+							<div class="breadcrumb_iner_item">
+								<h3>
+									<i>구매하신 상품이 없습니다.</i>
+								</h3>
+							</div>
 						</c:if>
 
-
 					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--================End Single Product Area =================-->
-
-	<!--================Product Description Area =================-->
-	<section class="product_description_area">
-		<div class="container">
-			<ul class="nav nav-tabs" id="myTab" role="tablist">
-				<!-- <li class="nav-item"><a class="nav-link" id="home-tab"
-					data-toggle="tab" href="#home" role="tab" aria-controls="home"
-					aria-selected="true">Description</a></li> -->
-				<c:if test="${!empty user}">
-					<a href="myOrder.do?id=${user.id}">구매내역</a>
-				</c:if>
-				<c:if test="${!empty manager}">
-					<li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab"
-						href="#contact" role="tab" aria-controls="profile"
-						aria-selected="false">회원보기</a></li>
-				</c:if>
-			</ul>
-			<div class="tab-content" id="myTabContent">
 
 
-				<!--   ===============   (회원용) 구매 내역 section   ===================-->
-				<div class="tab-pane fade" id="profile" role="tabpanel"
-					aria-labelledby="profile-tab">
-					<div class="table-responsive">
-						<table class="table">
-							<tr>
-								<td>
-									<h5>상품명</h5>
-								</td>
-								<td>
-									
-								</td>
-							</tr>
-							<%-- <tr>
-								<td>
-									<h5>KC인증</h5>
-								</td>
-								<td>
-									<h5>${ord.proKC}</h5>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h5>색상</h5>
-								</td>
-								<td>
-									<h5>${data.proColor}</h5>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h5>구성품</h5>
-								</td>
-								<td>
-									<h5>${data.proCmpt}</h5>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h5>주요소재</h5>
-								</td>
-								<td>
-									<h5>${data.proMtrl}</h5>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h5>제조자(수입자)</h5>
-								</td>
-								<td>
-									<h5>${data.proMnfct}</h5>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h5>제조국</h5>
-								</td>
-								<td>
-									<h5>${data.proNation}</h5>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h5>크기</h5>
-								</td>
-								<td>
-									<h5>${data.proSize}</h5>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h5>배송,설치비용</h5>
-								</td>
-								<td>
-									<h5>${data.proFee}</h5>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h5>품질보증기준</h5>
-								</td>
-								<td>
-									<h5>${data.proCerti}</h5>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h5>A/S 책임자와 전화번호</h5>
-								</td>
-								<td>
-									<h5>${data.proAS}</h5>
-								</td>
-							</tr> --%>
 
-							</tbody>
-						</table>
-					</div>
-				</div>
-
-				<div class="tab-pane fade" id="contact" role="tabpanel"
-					aria-labelledby="contact-tab">
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="comment_list">
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/single-product/review-1.png" alt="" />
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2017 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt ut labore et dolore
-										magna aliqua. Ut enim ad minim veniam, quis nostrud
-										exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-								</div>
-								<div class="review_item reply">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/single-product/review-2.png" alt="" />
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2017 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt ut labore et dolore
-										magna aliqua. Ut enim ad minim veniam, quis nostrud
-										exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-								</div>
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/single-product/review-3.png" alt="" />
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2017 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit, sed do eiusmod tempor incididunt ut labore et dolore
-										magna aliqua. Ut enim ad minim veniam, quis nostrud
-										exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="review_box">
-								<h4>Post a comment</h4>
-								<form class="row contact_form" action="contact_process.php"
-									method="post" id="contactForm" novalidate="novalidate">
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="name" name="name"
-												placeholder="Your Full name" />
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="email" class="form-control" id="email"
-												name="email" placeholder="Email Address" />
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="number"
-												name="number" placeholder="Phone Number" />
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea class="form-control" name="message" id="message"
-												rows="1" placeholder="Message"></textarea>
-										</div>
-									</div>
-									<div class="col-md-12 text-right">
-										<button type="submit" value="submit" class="btn_3">
-											Submit Now</button>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-			</div>
-		</div>
-	</section>
-
-	<!--================End Product Description Area =================-->
-
-	<!-- product_list part start-->
-	<section class="product_list best_seller">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-12">
-					<div class="section_tittle text-center">
-						<h2>
-							Best Sellers <span>shop</span>
-						</h2>
-					</div>
-				</div>
-			</div>
-			<div class="row align-items-center justify-content-between">
-				<div class="col-lg-12">
-					<div class="best_product_slider owl-carousel">
-						<div class="single_product_item">
-							<img src="img/product/product_1.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-						<div class="single_product_item">
-							<img src="img/product/product_2.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-						<div class="single_product_item">
-							<img src="img/product/product_3.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-						<div class="single_product_item">
-							<img src="img/product/product_4.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-						<div class="single_product_item">
-							<img src="img/product/product_5.png" alt="">
-							<div class="single_product_text">
-								<h4>Quartz Belt Watch</h4>
-								<h3>$150.00</h3>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- product_list part end-->
+	<!--================End Category Product Area =================-->
+
 
 	<!--::footer_part start::-->
 	<footer class="footer_part">
@@ -637,6 +327,7 @@
 					</div>
 				</div>
 			</div>
+
 		</div>
 		<div class="copyright_part">
 			<div class="container">
@@ -677,7 +368,6 @@
 	<!--::footer_part end::-->
 
 	<!-- jquery plugins here-->
-	<!-- jquery -->
 	<script src="js/jquery-1.12.1.min.js"></script>
 	<!-- popper js -->
 	<script src="js/popper.min.js"></script>
@@ -686,7 +376,7 @@
 	<!-- easing js -->
 	<script src="js/jquery.magnific-popup.js"></script>
 	<!-- swiper js -->
-	<script src="js/lightslider.min.js"></script>
+	<script src="js/swiper.min.js"></script>
 	<!-- swiper js -->
 	<script src="js/masonry.pkgd.js"></script>
 	<!-- particles js -->
@@ -694,7 +384,6 @@
 	<script src="js/jquery.nice-select.min.js"></script>
 	<!-- slick js -->
 	<script src="js/slick.min.js"></script>
-	<script src="js/swiper.jquery.js"></script>
 	<script src="js/jquery.counterup.min.js"></script>
 	<script src="js/waypoints.min.js"></script>
 	<script src="js/contact.js"></script>
@@ -703,8 +392,8 @@
 	<script src="js/jquery.validate.min.js"></script>
 	<script src="js/mail-script.js"></script>
 	<script src="js/stellar.js"></script>
+	<script src="js/price_rangs.js"></script>
 	<!-- custom js -->
-	<script src="js/theme.js"></script>
 	<script src="js/custom.js"></script>
 
 
