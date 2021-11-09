@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -138,12 +139,12 @@ public class MemberController {
 			System.out.println("관리자 확인, id: "+vo.getId());
 			session.setAttribute("manager", memberService.getMember(vo));
 			System.out.println("세션확인: "+session.getAttribute("manager"));
-			return "myPage.do";
+			return "myPage.jsp";
 		}
 
 		System.out.println("회원 확인");
 		session.setAttribute("user", memberService.getMember(vo));
-		return "myPage.do";
+		return "myPage.jsp";
 
 	}
 
@@ -175,5 +176,19 @@ public class MemberController {
 		session.invalidate();
 		return "main.do";
 	}
+	
+	@RequestMapping("/getMemberList.do")
+	public String getMemberList(Model model) {
+		System.out.println("/getMemberList.do 실행");
+		
+		List<MemberVO> memList = memberService.getMemberList();
+		model.addAttribute("memList",memList);
+		System.out.println("매인-신상품(최신순) model.addAttribute : " + memList);
+		
+		return "myOrdHistory.jsp"; //관리자는 회원 목록보기용으로 재활용 
+		
+		
+	}
+	
 
 }

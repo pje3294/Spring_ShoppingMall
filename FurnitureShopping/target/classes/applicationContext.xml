@@ -77,6 +77,15 @@
 		<aop:advisor advice-ref="txAdvice"
 			pointcut-ref="tPointcut" />
 	</aop:config>
-
+	
+	
+	<!-- MyBatis 관련  -->
+	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:sql-map-config.xml" />
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
 
 </beans>

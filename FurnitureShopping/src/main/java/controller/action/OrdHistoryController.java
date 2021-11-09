@@ -1,7 +1,5 @@
 package controller.action;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +33,8 @@ public class OrdHistoryController {
 		// 장바구니 생성
 		List<OrdHistoryVO> cart = (List<OrdHistoryVO>) session.getAttribute("cart");
 		System.out.println("dsfd: " + vo);
-
+		
+		
 		int cartCnt = cart.size();
 		System.out.println(cartCnt);
 

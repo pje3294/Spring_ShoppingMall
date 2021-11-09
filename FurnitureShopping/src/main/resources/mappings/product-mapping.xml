@@ -1,4 +1,4 @@
-<!-- <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="proDAO">
 
@@ -8,8 +8,8 @@
 	INSERT INTO PRODUCT (PROCODE, PROCATE, PROSUBCATE, PRONAME, PROPRICE, PROSTOCK,
 	PROKC, PROCOLOR, PROCMPT, PROMTRL, PROMNFCT, PRONATION, PROSIZE,
 	PROFEE, PROCERTI, PROAS, PROIMG) VALUES((SELECT NVL(MAX(PROCODE),0)+1
-	FROM PRODUCT),#{proCate},#{proSubCate},#{proName},#{proPrice},#{proStock},#{proKC},#{proColor},#{pro.Cmpt},#{proMtrl},#{proMnfct},#{ProNation},
-	#{proSize},#{proFee},#{ProCerti},#{proAS},#{proImg})
+	FROM PRODUCT),#{proCate},#{proSubCate},#{proName},#{proPrice},#{proStock},#{proKC},#{proColor},#{proCmpt},#{proMtrl},#{proMnfct},#{proNation},
+	#{proSize},#{proFee},#{proCerti},#{proAS},#{proImg})
 	]]>
 	</insert>
 
@@ -17,11 +17,10 @@
 	<update id="updateProduct">
 		<![CDATA[
 		UPDATE PRODUCT SET PROCATE=#{proCate},PROSUBCATE=#{proSubCate},PRONAME=#{proName},PROPRICE=#{proPrice},PROSTOCK=#{proStock}, PROKC=#{proKC},
-		 PROCOLOR=#{proColor},PROCMPT=#{pro.Cmpt},PROMTRL=#{proMtrl},PROMNFCT=#{proMnfct},PRONATION=#{ProNation},PROSIZE=#{proSize},PROFEE=#{proFee},
-		 PROCERTI=#{ProCerti},PROAS=#{proAS},#{proImg} WHERE PROCODE=#{proCode}
+		 PROCOLOR=#{proColor},PROCMPT=#{proCmpt},PROMTRL=#{proMtrl},PROMNFCT=#{proMnfct},PRONATION=#{proNation},PROSIZE=#{proSize},PROFEE=#{proFee},
+		 PROCERTI=#{proCerti},PROAS=#{proAS},#{proImg} WHERE PROCODE=#{proCode}
 		]]>
 	</update>
-
 
 	<delete id="deleteProduct">
 		<![CDATA[
@@ -35,12 +34,35 @@
 		]]>
 	</select>
 
-아직미왅성
-	<select id="getProductList" resultType="product">
-		SELECT * FROM PRODUCT WHERE 1=1
-		<if test="proCode==0"></if>
-		
+
+
+
+	<select id="searchProductList" resultType="product">
+
+		<![CDATA[
+			SELECT * FROM PRODUCT WHERE PRONAME LIKE
+			'%'||#{keyword}||'%' ORDER BY PRODATE DESC
+			]]>
 	</select>
 
+	<select id="cateProductList" resultType="product">
+					<![CDATA[
+				SELECT * FROM (SELECT * FROM PRODUCT WHERE
+				PROCATE=#{proCate} AND
+				PROSUBCATE=#{proSubCate} ORDER BY PRODATE
+				DESC) ORDER BY PRODATE
+				DESC
+				]]>
 
-</mapper> -->
+	</select>
+
+	<select id="getProductList" resultType="product">
+		<![CDATA[
+		SELECT * FROM(SELECT * FROM PRODUCT WHERE PROCATE=#{proCate} ORDER BY
+		PRODATE DESC) ORDER BY PRODATE DESC
+					]]>
+	</select>
+	
+	
+
+</mapper>

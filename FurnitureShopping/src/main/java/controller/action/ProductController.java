@@ -61,9 +61,9 @@ public class ProductController {
 		model.addAttribute("datas", datas);
 		System.out.println("매인-신상품(최신순) model.addAttribute : " + datas);
 
-		int cnt = datas.size();
+/*		int cnt = datas.size();
 		model.addAttribute("cnt",cnt); // 전체 상품 갯수
-		
+*/		
 		return "category.jsp";
 	}
 
@@ -135,13 +135,7 @@ public class ProductController {
 			String fileName = "nonImg.png";
 			System.out.println("파일명 : " + fileName);
 			vo.setProImg("\\images\\product\\" + fileName);
-			/*
-			 * fileUpload.transferTo(new File(
-			 * "C:\\Users\\박정은\\git\\Spring_ShoppingMall\\FurnitureShopping\\src\\main\\webapp\\images\\product\\"
-			 * +fileName));
-			 * //C:\Users\박정은\git\Spring_ShoppingMall\FurnitureShopping\src\main\webapp\
-			 * images\product
-			 */
+
 		}
 
 		productService.insertProduct(vo);

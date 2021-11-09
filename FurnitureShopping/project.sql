@@ -134,7 +134,7 @@ select * from member where id='jeong' and password='1234';
 select * from product order by proDate desc;
 
 
-select * from product where proCode=2;
+select * from product where proCode=10;
 
 update product set proStock= proStock -1 where proCode=16;
 
@@ -144,7 +144,11 @@ select * from product where proname like 'ㄷ' order by proDate desc;
 
 
 
-delete from PRODUCT where procode = 12;
+delete from PRODUCT where procode = 10;
 
 
 
+SELECT * FROM (select * from product where proCate='의자' and proSubCate='인테리어' order by proDate desc) ORDER BY proDate DESC;
+
+
+SELECT * FROM(select * from product where proCate='스툴' order by proDate desc)ORDER BY proDate DESC;
