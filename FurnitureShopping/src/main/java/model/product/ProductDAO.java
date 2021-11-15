@@ -50,37 +50,48 @@ public class ProductDAO {
 
 	/////////////////////////////////////////////////////////////////////
 	// 상품 전체 목록
-
-
 	// 메인 -> 선택한 카테고리 상품 목록 (category.jsp)
 	public List<ProductVO> getProList(ProductVO vo) {
 		System.out.println("ProductDAO-getProList 실행");
 
 		System.out.println("vo확인" + vo);
-		System.out.println("get Condtion : " + vo.getCondition());
 
-		if (vo.getCondition() != null || vo.getKeyword() != null) { // 상품 정렬, 검색 시
-			System.out.println("vo.getKeyword 이 null아닐때");
-			System.out.println("condition & keyword " + vo.getCondition() + " : " + vo.getKeyword());
+		if (vo.getCondition() != null) { // 신상품 보기
+			System.out.println("vo.getCondition 이 null아닐때");
+			System.out.println("condition : " + vo.getCondition());
+			
 			if(vo.getCondition().equals("proDate")){
+				System.out.println("신상품순으로 보여주기");
 				vo.setKeyword("");
 			}
+			
 			return mybatis.selectList("proDAO.searchProductList",vo);
 			
 
-		} 
+		}
+		
 		System.out.println("컨디션이 널일때");
+		
+		if(vo.getKeyword() != null) {  // 상품명 검색 시
+			System.out.println("vo.getKeyword 이 null아닐때");
+			System.out.println("keyword : " + vo.getKeyword());
+			String keyword = vo.getKeyword();
+			vo.setKeyword(keyword);
+			return mybatis.selectList("proDAO.searchProductList",vo);
+		}
+		
+		
 		if (vo.getProCate().equals("의자") || vo.getProCate().equals("소파")) {
-			if (vo.getProSubCate() != null) { // 의자 하위 카테고리
-				System.out.println("의자만");
+			if (vo.getProSubCate() != null) { // 하위 카테고리
+				System.out.println("하위카테고리만 보여주기");
 				System.out.println("vo.getProCate확인: " + vo.getProCate());
 				System.out.println("vo.getProSubCate확인: " + vo.getProSubCate());
 
 				return mybatis.selectList("proDAO.cateProductList",vo);
 			}
 
-		} /* else if (vo.getProCate().equals("스툴")) { */
-		System.out.println("스툴만");
+		} 
+		System.out.println("상위카테고리만 보여주기");
 
 		return mybatis.selectList("proDAO.getProductList",vo);
 

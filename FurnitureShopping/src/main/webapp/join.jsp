@@ -635,6 +635,7 @@
       }
 	
 	
+	// 주소 API
 	function searchAddr(){
 		 new daum.Postcode({
 		        oncomplete: function(data) {

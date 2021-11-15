@@ -1,5 +1,6 @@
 package controller.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -92,9 +93,14 @@ public class OrdHistoryController {
 			System.out.println("insertOrdHistory확인: " + v);
 		}
 
-		List<OrdHistoryVO> ordHistory = orderHistoryService.getMyOrdList(vo);
-
-		session.setAttribute("ordHistory", ordHistory);
+		
+		int cartCnt = 0; 	// 장바구니 상품 구매 후, 장바구니 리셋 
+		session.setAttribute("cartCnt", cartCnt);
+		// 장바구니 생성
+		cart = new ArrayList<OrdHistoryVO>();
+		session.setAttribute("cart", cart);
+		
+		
 
 		return "main.do";
 	}

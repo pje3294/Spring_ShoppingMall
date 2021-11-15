@@ -15,22 +15,22 @@
 	ADDR=#{addr}, ETCADDR=#{etcAddr}, BIRTH=#{birth}, PROFILE=#{profile} WHERE ID=#{id}
 	]]>
 	</update>
-	
-	
+
+
 	<delete id="deleteMember">
 	<![CDATA[
 	DELETE FROM MEMBER WHERE ID=#{id}
 	]]>
 	</delete>
-	
-	
+
+
 	<select id="getMember" resultType="member">
 	<![CDATA[
 	SELECT * FROM MEMBER WHERE ID=#{id}
 	]]>
 	</select>
-	
-	
+
+
 	<select id="login" resultType="member">
 	<![CDATA[
 	SELECT * FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
@@ -42,8 +42,4 @@
 	SELECT * FROM MEMBER
 	]]>
 	</select>
-
-
-
-
 </mapper>

@@ -58,9 +58,6 @@ public class MemberController {
 		session.setAttribute("cart", cart);
 		int cartCnt =0;
 		session.setAttribute("cartCnt", cartCnt);
-		
-		List<OrdHistoryVO> ordHistory = new ArrayList<OrdHistoryVO>();
-		session.setAttribute("ordHistory", ordHistory);
 
 		return "redirect:index.jsp";
 	}
@@ -79,11 +76,6 @@ public class MemberController {
 		return "redirect:index.jsp";
 	}
 
-	/*
-	 * @RequestMapping("/myPage.do") public String myPage(HttpServletRequest
-	 * request, MemberDAO dao, MemberVO vo) { dao.insertMember(vo); return "index";
-	 * }
-	 */
 
 	@RequestMapping("/idCheck.do")
 	public String idCheck(HttpServletRequest request, HttpServletResponse response, MemberVO vo) {
