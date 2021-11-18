@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib tagdir="/WEB-INF/tags" prefix="mytag"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -8,7 +9,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>aranoz</title>
+    <title>오늘의 GaGu 🪑</title>
     <link rel="icon" href="img/favicon.png">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -31,66 +32,58 @@
 
 <body>
     <!--::header part start::-->
-    <header class="main_menu home_menu">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-12">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="index.jsp"> <img src="img/logo.png" alt="logo"> </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="menu_icon"><i class="fas fa-bars"></i></span>
-                        </button>
+ 	<header class="main_menu home_menu">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-12">
+					<nav class="navbar navbar-expand-lg navbar-light">
+						<a class="navbar-brand" href="main.do"> <img
+							src="img/gaguLogo.png" alt="logo">
+						</a>
+						<button class="navbar-toggler" type="button"
+							data-toggle="collapse" data-target="#navbarSupportedContent"
+							aria-controls="navbarSupportedContent" aria-expanded="false"
+							aria-label="Toggle navigation">
+							<span class="menu_icon"><i class="fas fa-bars"></i></span>
+						</button>
 
-                        <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="index.html">Home</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Shop
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="category.html"> shop category</a>
-                                        <a class="dropdown-item" href="single-product.html">product details</a>
-                                        
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        pages
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="login.html"> login</a>
-                                        <a class="dropdown-item" href="tracking.html">tracking</a>
-                                        <a class="dropdown-item" href="checkout.html">product checkout</a>
-                                        <a class="dropdown-item" href="cart.html">shopping cart</a>
-                                        <a class="dropdown-item" href="confirmation.html">confirmation</a>
-                                        <a class="dropdown-item" href="elements.html">elements</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        blog
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="blog.html"> blog</a>
-                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                                    </div>
-                                </li>
-                                
-                                <li class="nav-item">
-                                    <a class="nav-link" href="contact.html">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                       	<!--로그인xxxxx -->
-						<c:if test="${empty user}">
+						<div class="collapse navbar-collapse main-menu-item"
+							id="navbarSupportedContent">
+							<ul class="navbar-nav">
+								<li class="nav-item"><a class="nav-link" href="main.do">Home</a>
+								</li>
+								<li class="nav-item dropdown"><a
+									class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1"
+									role="button" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false"> Chair </a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+										<a class="dropdown-item"
+											href="main.do?proCate=의자&proSubCate=인테리어">Interior Chair</a>
+										<a class="dropdown-item"
+											href="main.do?proCate=의자&proSubCate=좌식">Sitting Chair</a>
+
+									</div></li>
+								<li class="nav-item"><a class="nav-link"
+									href="main.do?proCate=스툴">Stool</a></li>
+								<li class="nav-item dropdown"><a
+									class="nav-link dropdown-toggle" href="blog.html"
+									id="navbarDropdown_1" role="button" data-toggle="dropdown"
+									aria-haspopup="true" aria-expanded="false">Sofa</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+										<a class="dropdown-item"
+											href="main.do?proCate=소파&proSubCate=일반소파">Normal Sofa</a> <a
+											class="dropdown-item"
+											href="main.do?proCate=소파&proSubCate=빈백소파">BeanBag Sofa</a>
+									</div></li>
+
+							</ul>
+						</div>
+
+						<!--================================================================================  -->
+
+						<!--  ====================== 상단바 아이콘  ====================== -->
+						<!--로그인xxxxx -->
+						<c:if test="${empty user && empty manager}">
 							<div class="hearer_icon d-flex">
 								<div class="dropdown">
 									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
@@ -121,50 +114,71 @@
 										aria-expanded="false"> <i class="ti-user"></i>
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="logout.do">로그아웃</a> 
-										<c:choose>
-											<c:when test="${!empty manager}">
-												<a class="dropdown-item" href="myPage.do?manager=${user.id}">관리자 페이지</a>
-											</c:when>
-											<c:otherwise>
-												<a class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
-											</c:otherwise>
-										</c:choose>
-									
-										
+										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
+											class="dropdown-item" href="myPage.jsp?id=${user.id}">마이페이지</a>
 									</div>
 								</div>
 
 								<div class="dropdown cart">
-									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+									<a class="dropdown-toggle" href="cart.jsp" id="navbarDropdown3"
 										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+										aria-expanded="false"> <i class="fas fa-cart-plus"><span
+											class="cartNew">${cartCnt}</span></i>
 									</a>
 								</div>
 
-								<a id="search_1" href="javascript:void(0)"> 
-								<i class="ti-search"></i>
+								<a id="search_1" href="javascript:void(0)"> <i
+									class="ti-search"></i>
 								</a>
 
 
 
 							</div>
 						</c:if>
-						
-                    </nav>
-                </div>
-            </div>
-        </div>
-        <div class="search_input" id="search_input_box">
-            <div class="container ">
-                <form class="d-flex justify-content-between search-inner">
-                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
-                    <button type="submit" class="btn"></button>
-                    <span class="ti-close" id="close_search" title="Close Search"></span>
-                </form>
-            </div>
-        </div>
-    </header>
+
+
+						<!-- ======= 관리자 페이지 이동  ========-->
+						<c:if test="${!empty manager}">
+							<div class="hearer_icon d-flex">
+								<div class="dropdown">
+									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+										role="button" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="ti-user"></i>
+									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
+											class="dropdown-item" href="myPage.jsp?id=${manager.id}">관리자페이지</a>
+									</div>
+								</div>
+
+
+								<a id="search_1" href="javascript:void(0)"> <i
+									class="ti-search"></i>
+								</a>
+
+
+
+							</div>
+						</c:if>
+						<!--================================================================================  -->
+
+					</nav>
+				</div>
+			</div>
+		</div>
+		<!-- ============================ 상단 검색 입력칸 =========================== -->
+		<div class="search_input" id="search_input_box">
+			<div class="container ">
+				<form class="d-flex justify-content-between search-inner"
+					action="main.do" method="post">
+					<input type="text" class="form-control" id="search_input"
+						placeholder="찾으시는 상품의 일부를 입력해주세요." name="keyword">
+					<button type="submit" class="btn"></button>
+					<span class="ti-close" id="close_search" title="Close Search"></span>
+				</form>
+			</div>
+		</div>
+	</header>
     <!-- Header part end-->
 
 
@@ -193,8 +207,7 @@
                     <div class="login_part_text text-center">
                         <div class="login_part_text_iner">
                             <h2>아직 회원이 아니신가요?</h2>
-                            <p>There are advances being made in science and technology
-                                everyday, and a good example of this is the</p>
+                            <p>상품 구매는 회원만 할 수 있습니다! 서비스를 이용하려면 아래 버튼을 통해 회원가입을 먼저 해주세요!🥰</p>
                             <a href="join.jsp" class="btn_3">회원가입 하기</a>
                         </div>
                     </div>
@@ -227,7 +240,6 @@
                                     <button type="submit" value="submit" class="btn_3">
                                         log in
                                     </button>
-                                    <a class="lost_pass" href="#">forget password?</a>
                                 </div>
                             </form>
                         </div>
@@ -238,101 +250,7 @@
     </section>
     <!--================login_part end =================-->
 
-    <!--::footer_part start::-->
-    <footer class="footer_part">
-        <div class="container">
-            <div class="row justify-content-around">
-                <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Top Products</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Managed Website</a></li>
-                            <li><a href="">Manage Reputation</a></li>
-                            <li><a href="">Power Tools</a></li>
-                            <li><a href="">Marketing Service</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Quick Links</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Jobs</a></li>
-                            <li><a href="">Brand Assets</a></li>
-                            <li><a href="">Investor Relations</a></li>
-                            <li><a href="">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Features</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Jobs</a></li>
-                            <li><a href="">Brand Assets</a></li>
-                            <li><a href="">Investor Relations</a></li>
-                            <li><a href="">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Resources</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Guides</a></li>
-                            <li><a href="">Research</a></li>
-                            <li><a href="">Experts</a></li>
-                            <li><a href="">Agencies</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4">
-                    <div class="single_footer_part">
-                        <h4>Newsletter</h4>
-                        <p>Heaven fruitful doesn't over lesser in days. Appear creeping
-                        </p>
-                        <div id="mc_embed_signup">
-                            <form target="_blank"
-                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                method="get" class="subscribe_form relative mail_part">
-                                <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
-                                    class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = ' Email Address '">
-                                <button type="submit" name="submit" id="newsletter-submit"
-                                    class="email_icon newsletter-submit button-contactForm">subscribe</button>
-                                <div class="mt-10 info"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="copyright_part">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="copyright_text">
-                            <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="footer_icon social_icon">
-                            <ul class="list-unstyled">
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--::footer_part end::-->
+	<mytag:footer/>
 
     <!-- jquery plugins here-->
     <!-- jquery -->

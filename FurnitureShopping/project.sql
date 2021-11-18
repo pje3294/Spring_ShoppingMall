@@ -7,6 +7,7 @@ drop table review cascade constraint;
 
 select * from member; -- jeong / 1234
 select * from product;
+select * from ordHistory;
 ------------------------------------------------------------------
 -- Member 테이블 
 create table member(
@@ -29,22 +30,22 @@ create table product(
 proCode number(20) primary key, -- 상품번호 (nvl)
 proCate varchar2(30) not null, -- 상품 카테고리
 proSubCate varchar2(30) null, -- 하위 카테고리
-proName varchar2(100) not null, -- 상품명
+proName varchar2(225) not null, -- 상품명
 proPrice number(10) not null, -- 상품가격
-proStock number(5) not null, -- 상품재고
+proStock number(5) default 0, -- 상품재고
 proDate date default sysdate, -- 상품등록일
 proRating number(2,1) default 0.0, -- 평점
 proKC varchar2(30) not null, -- KC인증
-proColor varchar2(200) not null, -- 색상
-proCmpt varchar2(200) not null, -- 구성품 
-proMtrl varchar2(200) not null, -- 주요소재
-proMnfct varchar2(200) not null, -- 제조자(수입자)
+proColor varchar2(225) not null, -- 색상
+proCmpt varchar2(225) not null, -- 구성품 
+proMtrl varchar2(225) not null, -- 주요소재
+proMnfct varchar2(225) not null, -- 제조자(수입자)
 proNation varchar2(100) not null, -- 제조국
-proSize varchar2(200) not null, -- 크기
+proSize varchar2(225) not null, -- 크기
 proFee number(5) not null, -- 배송,설치비용
-proCerti varchar2(100) not null, -- 품질보증기준
-proAS varchar2(100) not null, -- A/S 책임자와 전화번호
-proImg varchar2(200) default 'images\\product\\nonImg.png', -- 상품 이미지1
+proCerti varchar2(225) not null, -- 품질보증기준
+proAS varchar2(225) not null, -- A/S 책임자와 전화번호
+proImg varchar2(225) default 'images\\product\\nonImg.png', -- 상품 이미지1
 proSelling number(20) default 0 -- 판매수
 );
 
@@ -53,6 +54,7 @@ proSelling number(20) default 0 -- 판매수
 create table ordHistory(
 ordCode number(20) primary key, -- 주문번호
 proCode number(20) not null, -- 상품번호 (FK)
+proName varchar2(100) not null, -- 상품명
 id varchar2(15) not null, -- 아이디 (FK)
 amount number(5) not null, -- 수량
 payment number(10) not null, -- 총 주문가격
@@ -132,5 +134,21 @@ select * from member where id='jeong' and password='1234';
 select * from product order by proDate desc;
 
 
-select * from product where proCode=2;
+select * from product where proCode=10;
 
+update product set proStock= proStock -1 where proCode=16;
+
+select * from product where proname like 'ㄷ' order by proDate desc;
+
+
+
+
+
+delete from PRODUCT where procode = 10;
+
+
+
+SELECT * FROM (select * from product where proCate='의자' and proSubCate='인테리어' order by proDate desc) ORDER BY proDate DESC;
+
+
+SELECT * FROM(select * from product where proCate='스툴' order by proDate desc)ORDER BY proDate DESC;

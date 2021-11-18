@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mytag"%>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
+
 <head>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>aranoz</title>
+<title>오늘의 GaGu 🪑</title>
 <link rel="icon" href="img/favicon.png">
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -16,6 +18,7 @@
 <link rel="stylesheet" href="css/animate.css">
 <!-- owl carousel CSS -->
 <link rel="stylesheet" href="css/owl.carousel.min.css">
+<link rel="stylesheet" href="css/lightslider.min.css">
 <!-- font awesome CSS -->
 <link rel="stylesheet" href="css/all.css">
 <!-- flaticon CSS -->
@@ -23,10 +26,10 @@
 <link rel="stylesheet" href="css/themify-icons.css">
 <!-- font awesome CSS -->
 <link rel="stylesheet" href="css/magnific-popup.css">
-<!-- swiper CSS -->
-<link rel="stylesheet" href="css/slick.css">
 <!-- style CSS -->
 <link rel="stylesheet" href="css/style.css">
+
+
 </head>
 
 <body>
@@ -36,8 +39,8 @@
 			<div class="row align-items-center">
 				<div class="col-lg-12">
 					<nav class="navbar navbar-expand-lg navbar-light">
-						<a class="navbar-brand" href="index.jsp"> <img
-							src="img/logo.png" alt="logo">
+						<a class="navbar-brand" href="main.do"> <img
+							src="img/gaguLogo.png" alt="logo">
 						</a>
 						<button class="navbar-toggler" type="button"
 							data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -49,43 +52,37 @@
 						<div class="collapse navbar-collapse main-menu-item"
 							id="navbarSupportedContent">
 							<ul class="navbar-nav">
-								<li class="nav-item"><a class="nav-link" href="index.html">Home</a>
+								<li class="nav-item"><a class="nav-link" href="main.do">Home</a>
 								</li>
+								<li class="nav-item dropdown"><a
+									class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1"
+									role="button" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false"> Chair </a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+										<a class="dropdown-item"
+											href="main.do?proCate=의자&proSubCate=인테리어">Interior Chair</a>
+										<a class="dropdown-item"
+											href="main.do?proCate=의자&proSubCate=좌식">Sitting Chair</a>
+
+									</div></li>
+								<li class="nav-item"><a class="nav-link"
+									href="main.do?proCate=스툴">Stool</a></li>
 								<li class="nav-item dropdown"><a
 									class="nav-link dropdown-toggle" href="blog.html"
 									id="navbarDropdown_1" role="button" data-toggle="dropdown"
-									aria-haspopup="true" aria-expanded="false"> Shop </a>
+									aria-haspopup="true" aria-expanded="false">Sofa</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-										<a class="dropdown-item" href="category.html"> shop
-											category</a> <a class="dropdown-item" href="single-product.html">product
-											details</a>
-
-									</div></li>
-								<li class="nav-item dropdown"><a
-									class="nav-link dropdown-toggle" href="blog.html"
-									id="navbarDropdown_3" role="button" data-toggle="dropdown"
-									aria-haspopup="true" aria-expanded="false"> pages </a>
-									<div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-										<a class="dropdown-item" href="login.html"> login</a> <a
-											class="dropdown-item" href="tracking.html">tracking</a> <a
-											class="dropdown-item" href="checkout.html">product
-											checkout</a> <a class="dropdown-item" href="cart.html">shopping
-											cart</a> <a class="dropdown-item" href="confirmation.html">confirmation</a>
-										<a class="dropdown-item" href="elements.html">elements</a>
-									</div></li>
-								<li class="nav-item dropdown"><a
-									class="nav-link dropdown-toggle" href="blog.html"
-									id="navbarDropdown_2" role="button" data-toggle="dropdown"
-									aria-haspopup="true" aria-expanded="false"> blog </a>
-									<div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-										<a class="dropdown-item" href="blog.html"> blog</a> <a
-											class="dropdown-item" href="single-blog.html">Single blog</a>
+										<a class="dropdown-item"
+											href="main.do?proCate=소파&proSubCate=일반소파">Normal Sofa</a> <a
+											class="dropdown-item"
+											href="main.do?proCate=소파&proSubCate=빈백소파">BeanBag Sofa</a>
 									</div></li>
 
-								<li class="nav-item"><a class="nav-link"
-									href="contact.html">Contact</a></li>
 							</ul>
 						</div>
+
+						<!--================================================================================  -->
+
 						<!--  ====================== 상단바 아이콘  ====================== -->
 						<!--로그인xxxxx -->
 						<c:if test="${empty user && empty manager}">
@@ -110,7 +107,7 @@
 
 						</c:if>
 
-							<!-- ======= 로그인 시 마이페이지 이동  ========-->
+						<!-- ======= 로그인 시 마이페이지 이동  ========-->
 						<c:if test="${!empty user}">
 							<div class="hearer_icon d-flex">
 								<div class="dropdown">
@@ -119,28 +116,29 @@
 										aria-expanded="false"> <i class="ti-user"></i>
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="logout.do">로그아웃</a> 
-										<a class="dropdown-item" href="myPage.do?user=${user.id}">마이페이지</a>
+										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
+											class="dropdown-item" href="myPage.jsp?id=${user.id}">마이페이지</a>
 									</div>
 								</div>
 
 								<div class="dropdown cart">
-									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
+									<a class="dropdown-toggle" href="cart.jsp" id="navbarDropdown3"
 										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
+										aria-expanded="false"> <i class="fas fa-cart-plus"><span
+											class="cartNew">${cartCnt}</span></i>
 									</a>
 								</div>
 
-								<a id="search_1" href="javascript:void(0)"> 
-								<i class="ti-search"></i>
+								<a id="search_1" href="javascript:void(0)"> <i
+									class="ti-search"></i>
 								</a>
 
 
 
 							</div>
 						</c:if>
-						
-						
+
+
 						<!-- ======= 관리자 페이지 이동  ========-->
 						<c:if test="${!empty manager}">
 							<div class="hearer_icon d-flex">
@@ -150,37 +148,33 @@
 										aria-expanded="false"> <i class="ti-user"></i>
 									</a>
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="logout.do">로그아웃</a> 
-										<a class="dropdown-item" href="myPage.do?user=${manager.id}">관리자페이지</a>
+										<a class="dropdown-item" href="logout.do">로그아웃</a> <a
+											class="dropdown-item" href="myPage.jsp?id=${manager.id}">관리자페이지</a>
 									</div>
 								</div>
 
-								<div class="dropdown cart">
-									<a class="dropdown-toggle" href="#" id="navbarDropdown3"
-										role="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="fas fa-cart-plus"></i>
-									</a>
-								</div>
 
-								<a id="search_1" href="javascript:void(0)"> 
-								<i class="ti-search"></i>
+								<a id="search_1" href="javascript:void(0)"> <i
+									class="ti-search"></i>
 								</a>
 
 
 
 							</div>
 						</c:if>
-
+						<!--================================================================================  -->
 
 					</nav>
 				</div>
 			</div>
 		</div>
+		<!-- ============================ 상단 검색 입력칸 =========================== -->
 		<div class="search_input" id="search_input_box">
 			<div class="container ">
-				<form class="d-flex justify-content-between search-inner">
+				<form class="d-flex justify-content-between search-inner"
+					action="main.do" method="post">
 					<input type="text" class="form-control" id="search_input"
-						placeholder="Search Here">
+						placeholder="찾으시는 상품의 일부를 입력해주세요." name="keyword">
 					<button type="submit" class="btn"></button>
 					<span class="ti-close" id="close_search" title="Close Search"></span>
 				</form>
@@ -189,7 +183,6 @@
 	</header>
 	<!-- Header part end-->
 
-	<!--================Home Banner Area =================-->
 	<!-- breadcrumb start-->
 	<section class="breadcrumb breadcrumb_bg">
 		<div class="container">
@@ -198,9 +191,7 @@
 					<div class="breadcrumb_iner">
 						<div class="breadcrumb_iner_item">
 							<h2>마이페이지</h2>
-							<p>
-								Home <span>-</span> Shop Single
-							</p>
+							
 						</div>
 					</div>
 				</div>
@@ -208,518 +199,90 @@
 		</div>
 	</section>
 	<!-- breadcrumb start-->
-	<!--================Blog Area =================-->
-	<section class="blog_area single-post-area padding_top">
+	<!--================End Home Banner Area =================-->
+
+	<!-------------------------------------------------------------------  -->
+	<div class="product_image_area section_padding">
 		<div class="container">
-			<div class="row">
-				<!-------------------------------------------------------------------  -->
-				<!-- ============ 내 프로필 영역 (회원용) ============== -->
-				<c:if test="${!empty user}">
-				<div class="col-lg-4">
-					<div class="blog_right_sidebar">
-						<aside class="single_sidebar_widget popular_post_widget">
-							<h3 class="widget_title">나의 프로필</h3>
-							<div class="media post_item">
-								<img src="${user.profile}" alt="post">
-								<div class="media-body">
-									<h3>[${user.name}]님♥</h3>
-									<a href="join.jsp"><span><i>내정보 수정/탈퇴</i></span></a>
-								</div>
+			<!-- ============ 내 프로필 영역 (회원용) ============== -->
+			<div class="row s_product_inner justify-content-between">
+				<div class="col-lg-7 col-xl-7">
+					<div class="product_slider_img">
+						<div id="vertical">
+							<div data-thumb="img/product/single-product/product_1.png">
+								<c:if test="${!empty user}">
+									<img src="${user.profile}" alt="post">
+								</c:if>
+								<c:if test="${!empty manager}">
+									<img src="${manager.profile}" alt="post">
+								</c:if>
 							</div>
-
-						</aside>
-						<aside class="single_sidebar_widget post_category_widget">
-							<h4 class="widget_title">내 활동</h4>
-							<ul class="list cat-list">
-								<li><a href="formProduct.jsp" class="d-flex">
-										<p>구매내용</p>
-										<p>(37)</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>리뷰</p>
-										<p>(10)</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>Modern technology</p>
-										<p>(03)</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>Product</p>
-										<p>(11)</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>Inspiration</p>
-										<p>(21)</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>Health Care</p>
-										<p>(21)</p>
-								</a></li>
-							</ul>
-						</aside>
+							<!-- C:\Users\박정은\git\Spring_ShoppingMall\FurnitureShopping\src\main\webapp\images\product\surface.jpg -->
+							<!--C:\\Users\\박정은\\git\\Spring_ShoppingMall\\FurnitureShopping\\src\\main\\webapp\\${data.proImg} -->
+						</div>
 					</div>
 				</div>
-				
-				</c:if>
-				
-					<!-------------------------------------------------------------------  -->
-				<!-- ============ (관리자페이지) ============== -->
-				<c:if test="${!empty manager}">
-				<div class="col-lg-4">
-					<div class="blog_right_sidebar">
-						<aside class="single_sidebar_widget popular_post_widget">
-							<h3 class="widget_title">나의 프로필</h3>
-							<div class="media post_item">
-							<img src="${manager.profile}" alt="사진">
-								<div class="media-body">
-									<h3>[${manager.name}]님♥</h3>
-									<a href="join.jsp"><span><i>내정보 수정/탈퇴</i></span></a>
-								</div>
-							</div>
+				<div class="col-lg-5 col-xl-4">
+					<div class="s_product_text">
 
-						</aside>
-						<aside class="single_sidebar_widget post_category_widget">
-							<h4 class="widget_title">내 활동</h4>
-							<ul class="list cat-list">
-								<li><a href="insertProduct.do" class="d-flex">
-										<p>새상품 추가하기</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>리뷰</p>
-										<p>(10)</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>Modern technology</p>
-										<p>(03)</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>Product</p>
-										<p>(11)</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>Inspiration</p>
-										<p>(21)</p>
-								</a></li>
-								<li><a href="#" class="d-flex">
-										<p>Health Care</p>
-										<p>(21)</p>
-								</a></li>
-							</ul>
-						</aside>
-					</div>
-				</div>
-				
-				</c:if>
-				
-				
-				
-				
-				<div class="col-lg-8 posts-list">
-					<div class="single-post">
-						<div class="feature-img">
-							<img class="img-fluid" src="img/blog/single_blog_1.png" alt="">
-						</div>
-						<div class="blog_details">
-							<h2>Second divided from form fish beast made every of seas
-								all gathered us saying he our</h2>
-							<ul class="blog-info-link mt-3 mb-4">
-								<li><a href="#"><i class="far fa-user"></i> Travel,
-										Lifestyle</a></li>
-								<li><a href="#"><i class="far fa-comments"></i> 03
-										Comments</a></li>
-							</ul>
-							<p class="excert">MCSE boot camps have its supporters and its
-								detractors. Some people do not understand why you should have to
-								spend money on boot camp when you can get the MCSE study
-								materials yourself at a fraction of the camp price. However, who
-								has the willpower</p>
-							<p>MCSE boot camps have its supporters and its detractors.
-								Some people do not understand why you should have to spend money
-								on boot camp when you can get the MCSE study materials yourself
-								at a fraction of the camp price. However, who has the willpower
-								to actually sit through a self-imposed MCSE training. who has
-								the willpower to actually</p>
-							<div class="quote-wrapper">
-								<div class="quotes">MCSE boot camps have its supporters
-									and its detractors. Some people do not understand why you
-									should have to spend money on boot camp when you can get the
-									MCSE study materials yourself at a fraction of the camp price.
-									However, who has the willpower to actually sit through a
-									self-imposed MCSE training.</div>
-							</div>
-							<p>MCSE boot camps have its supporters and its detractors.
-								Some people do not understand why you should have to spend money
-								on boot camp when you can get the MCSE study materials yourself
-								at a fraction of the camp price. However, who has the willpower
-							</p>
-							<p>MCSE boot camps have its supporters and its detractors.
-								Some people do not understand why you should have to spend money
-								on boot camp when you can get the MCSE study materials yourself
-								at a fraction of the camp price. However, who has the willpower
-								to actually sit through a self-imposed MCSE training. who has
-								the willpower to actually</p>
-						</div>
-					</div>
-					<div class="navigation-top">
-						<div class="d-sm-flex justify-content-between text-center">
-							<p class="like-info">
-								<span class="align-middle"><i class="far fa-heart"></i></span>
-								Lily and 4 people like this
-							</p>
-							<div class="col-sm-4 text-center my-2 my-sm-0">
-								<!-- <p class="comment-count"><span class="align-middle"><i class="far fa-comment"></i></span> 06 Comments</p> -->
-							</div>
-							<ul class="social-icons">
-								<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-								<li><a href="#"><i class="fab fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fab fa-dribbble"></i></a></li>
-								<li><a href="#"><i class="fab fa-behance"></i></a></li>
-							</ul>
-						</div>
-						<div class="navigation-area">
-							<div class="row">
-								<div
-									class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
-									<div class="thumb">
-										<a href="#"> <img class="img-fluid"
-											src="img/post/preview.png" alt="">
-										</a>
-									</div>
-									<div class="arrow">
-										<a href="#"> <span class="lnr text-white ti-arrow-left"></span>
-										</a>
-									</div>
-									<div class="detials">
-										<p>Prev Post</p>
-										<a href="#">
-											<h4>Space The Final Frontier</h4>
-										</a>
-									</div>
-								</div>
-								<div
-									class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
-									<div class="detials">
-										<p>Next Post</p>
-										<a href="#">
-											<h4>Telescopes 101</h4>
-										</a>
-									</div>
-									<div class="arrow">
-										<a href="#"> <span class="lnr text-white ti-arrow-right"></span>
-										</a>
-									</div>
-									<div class="thumb">
-										<a href="#"> <img class="img-fluid"
-											src="img/post/next.png" alt="">
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="blog-author">
-						<div class="media align-items-center">
-							<img src="img/blog/author.png" alt="">
-							<div class="media-body">
-								<a href="#">
-									<h4>Harvard milan</h4>
-								</a>
-								<p>Second divided from form fish beast made. Every of seas
-									all gathered use saying you're, he our dominion twon Second
-									divided from</p>
-							</div>
-						</div>
-					</div>
-					<div class="comments-area">
-						<h4>05 Comments</h4>
-						<div class="comment-list">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="thumb">
-										<img src="img/comment/comment_1.png" alt="">
-									</div>
-									<div class="desc">
-										<p class="comment">Multiply sea night grass fourth day sea
-											lesser rule open subdue female fill which them Blessed, give
-											fill lesser bearing multiply sea night grass fourth day sea
-											lesser</p>
-										<div class="d-flex justify-content-between">
-											<div class="d-flex align-items-center">
-												<h5>
-													<a href="#">Emilly Blunt</a>
-												</h5>
-												<p class="date">December 4, 2017 at 3:12 pm</p>
-											</div>
-											<div class="reply-btn">
-												<a href="#" class="btn-reply text-uppercase">reply</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="comment-list">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="thumb">
-										<img src="img/comment/comment_2.png" alt="">
-									</div>
-									<div class="desc">
-										<p class="comment">Multiply sea night grass fourth day sea
-											lesser rule open subdue female fill which them Blessed, give
-											fill lesser bearing multiply sea night grass fourth day sea
-											lesser</p>
-										<div class="d-flex justify-content-between">
-											<div class="d-flex align-items-center">
-												<h5>
-													<a href="#">Emilly Blunt</a>
-												</h5>
-												<p class="date">December 4, 2017 at 3:12 pm</p>
-											</div>
-											<div class="reply-btn">
-												<a href="#" class="btn-reply text-uppercase">reply</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="comment-list">
-							<div class="single-comment justify-content-between d-flex">
-								<div class="user justify-content-between d-flex">
-									<div class="thumb">
-										<img src="img/comment/comment_3.png" alt="">
-									</div>
-									<div class="desc">
-										<p class="comment">Multiply sea night grass fourth day sea
-											lesser rule open subdue female fill which them Blessed, give
-											fill lesser bearing multiply sea night grass fourth day sea
-											lesser</p>
-										<div class="d-flex justify-content-between">
-											<div class="d-flex align-items-center">
-												<h5>
-													<a href="#">Emilly Blunt</a>
-												</h5>
-												<p class="date">December 4, 2017 at 3:12 pm</p>
-											</div>
-											<div class="reply-btn">
-												<a href="#" class="btn-reply text-uppercase">reply</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="comment-form">
-						<h4>Leave a Reply</h4>
-						<form class="form-contact comment_form" action="#"
-							id="commentForm">
-							<div class="row">
-								<div class="col-12">
-									<div class="form-group">
-										<textarea class="form-control w-100" name="comment"
-											id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="form-group">
-										<input class="form-control" name="name" id="name" type="text"
-											placeholder="Name">
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="form-group">
-										<input class="form-control" name="email" id="email"
-											type="email" placeholder="Email">
-									</div>
-								</div>
-								<div class="col-12">
-									<div class="form-group">
-										<input class="form-control" name="website" id="website"
-											type="text" placeholder="Website">
-									</div>
-								</div>
-							</div>
-							<div class="form-group mt-3">
-								<a href="#" class="btn_3 button-contactForm">Send Message</a>
-							</div>
-						</form>
-					</div>
-				</div>
-
-
-				<!-------------------------------------------------------------------  -->
-				<!-------------------------------------------------------------------  -->
-				<div class="col-lg-4">
-					<div class="blog_right_sidebar">
-						
-
-						<aside class="single_sidebar_widget tag_cloud_widget">
-							<h4 class="widget_title">Tag Clouds</h4>
+						<!-- ==============================         개인 정보       ======================================= -->
+						<c:if test="${!empty user}">
+							<h3 class="active" id="id">[${user.id}]님💙</h3>
+							<%-- <input type="hidden" id="id">${user.id} --%>
+							<br>
 							<ul class="list">
-								<li><a href="#">project</a></li>
-								<li><a href="#">love</a></li>
-								<li><a href="#">technology</a></li>
-								<li><a href="#">travel</a></li>
-								<li><a href="#">restaurant</a></li>
-								<li><a href="#">life style</a></li>
-								<li><a href="#">design</a></li>
-								<li><a href="#">illustration</a></li>
-							</ul>
-						</aside>
-						<aside class="single_sidebar_widget instagram_feeds">
-							<h4 class="widget_title">Instagram Feeds</h4>
-							<ul class="instagram_row flex-wrap">
-								<li><a href="#"> <img class="img-fluid"
-										src="img/post/post_5.png" alt="">
+								<li><a class="active" href="join.jsp">내정보
+										수정/탈퇴&nbsp;&nbsp;<i class="ti-settings"></i>
 								</a></li>
-								<li><a href="#"> <img class="img-fluid"
-										src="img/post/post_6.png" alt="">
-								</a></li>
-								<li><a href="#"> <img class="img-fluid"
-										src="img/post/post_7.png" alt="">
-								</a></li>
-								<li><a href="#"> <img class="img-fluid"
-										src="img/post/post_8.png" alt="">
-								</a></li>
-								<li><a href="#"> <img class="img-fluid"
-										src="img/post/post_9.png" alt="">
-								</a></li>
-								<li><a href="#"> <img class="img-fluid"
-										src="img/post/post_10.png" alt="">
-								</a></li>
-							</ul>
-						</aside>
-						<aside class="single_sidebar_widget newsletter_widget">
-							<h4 class="widget_title">Newsletter</h4>
-							<form action="#">
-								<div class="form-group">
-									<input type="email" class="form-control"
-										onfocus="this.placeholder = ''"
-										onblur="this.placeholder = 'Enter email'"
-										placeholder='Enter email' required>
-								</div>
-								<button
-									class="button rounded-0 primary-bg text-white w-100 btn_1"
-									type="submit">Subscribe</button>
-							</form>
-						</aside>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!--================Blog Area end =================-->
 
-	<!--::footer_part start::-->
-	<footer class="footer_part">
-		<div class="container">
-			<div class="row justify-content-around">
-				<div class="col-sm-6 col-lg-2">
-					<div class="single_footer_part">
-						<h4>Top Products</h4>
-						<ul class="list-unstyled">
-							<li><a href="">Managed Website</a></li>
-							<li><a href="">Manage Reputation</a></li>
-							<li><a href="">Power Tools</a></li>
-							<li><a href="">Marketing Service</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-sm-6 col-lg-2">
-					<div class="single_footer_part">
-						<h4>Quick Links</h4>
-						<ul class="list-unstyled">
-							<li><a href="">Jobs</a></li>
-							<li><a href="">Brand Assets</a></li>
-							<li><a href="">Investor Relations</a></li>
-							<li><a href="">Terms of Service</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-sm-6 col-lg-2">
-					<div class="single_footer_part">
-						<h4>Features</h4>
-						<ul class="list-unstyled">
-							<li><a href="">Jobs</a></li>
-							<li><a href="">Brand Assets</a></li>
-							<li><a href="">Investor Relations</a></li>
-							<li><a href="">Terms of Service</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-sm-6 col-lg-2">
-					<div class="single_footer_part">
-						<h4>Resources</h4>
-						<ul class="list-unstyled">
-							<li><a href="">Guides</a></li>
-							<li><a href="">Research</a></li>
-							<li><a href="">Experts</a></li>
-							<li><a href="">Agencies</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-sm-6 col-lg-4">
-					<div class="single_footer_part">
-						<h4>Newsletter</h4>
-						<p>Heaven fruitful doesn't over lesser in days. Appear
-							creeping</p>
-						<div id="mc_embed_signup">
-							<form target="_blank"
-								action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-								method="get" class="subscribe_form relative mail_part">
-								<input type="email" name="email" id="newsletter-form-email"
-									placeholder="Email Address" class="placeholder hide-on-focus"
-									onfocus="this.placeholder = ''"
-									onblur="this.placeholder = ' Email Address '">
-								<button type="submit" name="submit" id="newsletter-submit"
-									class="email_icon newsletter-submit button-contactForm">subscribe</button>
-								<div class="mt-10 info"></div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-		<div class="copyright_part">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8">
-						<div class="copyright_text">
-							<P>
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;
-								<script>
-									document.write(new Date().getFullYear());
-								</script>
-								All rights reserved | This template is made with <i
-									class="ti-heart" aria-hidden="true"></i> by <a
-									href="https://colorlib.com" target="_blank">Colorlib</a>
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							</P>
-						</div>
-					</div>
-					<div class="col-lg-4">
-						<div class="footer_icon social_icon">
-							<ul class="list-unstyled">
-								<li><a href="#" class="single_social_icon"><i
-										class="fab fa-facebook-f"></i></a></li>
-								<li><a href="#" class="single_social_icon"><i
-										class="fab fa-twitter"></i></a></li>
-								<li><a href="#" class="single_social_icon"><i
-										class="fas fa-globe"></i></a></li>
-								<li><a href="#" class="single_social_icon"><i
-										class="fab fa-behance"></i></a></li>
 							</ul>
-						</div>
+							<p>
+								<i class="ti-user"></i>&nbsp;&nbsp;name: ${user.name}
+							</p>
+							<p>
+								<i class="ti-email"></i>&nbsp;&nbsp;email: ${user.email}
+							</p>
+							<p>
+								<i class="ti-mobile"></i>&nbsp;&nbsp;phone: ${user.phone}
+							</p>
+							<p>
+								<i class="ti-face-smile"></i>&nbsp;&nbsp;birth: ${user.birth}
+							</p>
+							<p><a href="myOrder.do?id=${user.id}" class="genric-btn primary radius">내 구매내역 보러가기</a></p>
+						</c:if>
+						<c:if test="${!empty manager}">
+							<h2>관리자 계정입니다.</h2>
+							<br>
+							<h3 class="active">[${manager.id}]님😎</h3>
+							<br>
+							<ul class="list">
+								<li><a class="active" href="join.jsp">내정보
+										수정/탈퇴&nbsp;&nbsp;<i class="ti-settings"></i>
+								</a></li>
+
+							</ul>
+							<p>
+								<a href="insertProduct.do"class="genric-btn primary radius"> <span>새상품
+										추가하기</span>
+								</a>
+								<a href="getMemberList.do"class="genric-btn primary radius"> <span>회원 목록보기</span>
+								</a>
+							</p>
+							
+
+
+						</c:if>
+
+
 					</div>
 				</div>
 			</div>
 		</div>
-	</footer>
-	<!--::footer_part end::-->
+	</div>
+	<!--================End Single Product Area =================-->
+
+
+	<mytag:footer/>
 
 	<!-- jquery plugins here-->
 	<!-- jquery -->
@@ -731,7 +294,7 @@
 	<!-- easing js -->
 	<script src="js/jquery.magnific-popup.js"></script>
 	<!-- swiper js -->
-	<script src="js/swiper.min.js"></script>
+	<script src="js/lightslider.min.js"></script>
 	<!-- swiper js -->
 	<script src="js/masonry.pkgd.js"></script>
 	<!-- particles js -->
@@ -739,6 +302,7 @@
 	<script src="js/jquery.nice-select.min.js"></script>
 	<!-- slick js -->
 	<script src="js/slick.min.js"></script>
+	<script src="js/swiper.jquery.js"></script>
 	<script src="js/jquery.counterup.min.js"></script>
 	<script src="js/waypoints.min.js"></script>
 	<script src="js/contact.js"></script>
@@ -746,13 +310,13 @@
 	<script src="js/jquery.form.js"></script>
 	<script src="js/jquery.validate.min.js"></script>
 	<script src="js/mail-script.js"></script>
+	<script src="js/stellar.js"></script>
 	<!-- custom js -->
+	<script src="js/theme.js"></script>
 	<script src="js/custom.js"></script>
-	
 
-	
-	
-	
+
+
 </body>
 
 </html>
